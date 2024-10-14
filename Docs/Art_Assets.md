@@ -19,10 +19,10 @@
 - [ ] Ability Pickups
 - [ ] Ability Use
 - [ ] Projectile Ability
-- [ ] Hit Effect
 - [ ] Shop
     - [ ] Shop Inventory
-    - [ ] Shopkeep
+    - [ ] Shopkeep 
+    - [x] Shop Buttons
 
 # Enemies & Boss:
 - [ ] Normal Enemy
