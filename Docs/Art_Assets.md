@@ -12,8 +12,8 @@
 - [x] Other Font: Humaroid Font
     - [x] Title: Bad Mofo Font
 - [x] Score Font: Control Freak Font
-- [ ] Health Bar
-- [ ] Clickables
+- [x] Health Bar
+- [x] Clickables
 
 # Gameplay:
 - [ ] Ability Pickups
@@ -34,7 +34,7 @@
 - [ ] Boss Model
 
 # Inventory:
-- [ ] Back of the Upgrade cards
+- [ ] Upgrade Chips
 - [ ] Ability Icons
 - [ ] Upgrade Icon
 
@@ -46,8 +46,7 @@
 - [ ] Wall 2
 - [ ] Wall 3
 - [ ] Obstacles
-    - [ ] Boxes
-    - [ ] Barrels
+- [ ] Breakable Obstacles
 
 # Audio
 - [x] Background Music: [Retro and Electronic Music Pack] (https://slaleky.itch.io/retro-and-electronic-music-pack)
