@@ -1,11 +1,11 @@
 # Character:
-- [ ] Character Model
-- [ ] Movement Animation
+- [x] Character Model
+- [x] Movement Animation
 - [ ] Fighting Animation
 - [ ] On Hit animation
 - [ ] Ability Use Animaiton
-- [ ] Blocking
-- [ ] On Death Animation
+- [x] Blocking
+- [x] On Death Animation
 
 # UI:
 - [ ] Inventory Screen
@@ -17,7 +17,7 @@
 
 # Gameplay:
 - [ ] Ability Pickups
-- [ ] Ability Use
+- [ ] Ability Use (Item)
 - [ ] Projectile Ability
 - [ ] Shop
     - [ ] Shop Inventory
@@ -36,7 +36,6 @@
 # Inventory:
 - [ ] Upgrade Chips
 - [ ] Ability Icons
-- [ ] Upgrade Icon
 
 # Level
 - [ ] Floor 1
