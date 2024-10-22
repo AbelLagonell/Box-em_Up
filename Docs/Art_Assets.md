@@ -16,26 +16,27 @@
 - [x] Clickables
 
 # Gameplay:
-- [ ] Ability Pickups
-- [ ] Ability Use (Item)
-- [ ] Projectile Ability
-- [ ] Shop
-    - [ ] Shop Inventory
-    - [ ] Shopkeep 
+- [x] Ability Pickups (General Objects)
+	- [ ] All Ability Pickups
+- [x] Swing Ability (Object)
+- [x] Projectile Ability 
+- [x] Shop
+    - [x] Shop Inventory (Ability pickups in front of the shopkeep)
+    - [x] Shopkeep 
     - [x] Shop Buttons
 
 # Enemies & Boss:
-- [ ] Normal Enemy
-- [ ] Enemy Fighting animations
-- [ ] On Hit animations
-- [ ] On Death Animation
+- [x] Normal Enemy
+	- [ ] Enemy Fighting animations
+	- [ ] On Hit animations
+- [x] On Death Animation
 - [ ] Special Attack 1 (Boss)
 - [ ] Special Attack 2 (Boss)
-- [ ] Boss Model
+- [x] Boss Model
 
 # Inventory:
-- [ ] Upgrade Chips
-- [ ] Ability Icons
+- [x] Upgrade Chips (Same as Ability Pickup)
+- [x] Ability Icons (Same as actual projectile)
 
 # Level
 - [ ] Floor 1
