@@ -1,9 +1,9 @@
 # Character:
 - [x] Character Model
 - [x] Movement Animation
-- [ ] Fighting Animation
-- [ ] On Hit animation
-- [ ] Ability Use Animaiton
+- [x] Fighting Animation
+- [x] On Hit animation
+- [x] Ability Use Animaiton
 - [x] Blocking
 - [x] On Death Animation
 
