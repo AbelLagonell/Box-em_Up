@@ -46,7 +46,7 @@
 - [ ] Wall 2
 - [ ] Wall 3
 - [ ] Obstacles
-- [ ] Breakable Obstacles
+- [x] Breakable Obstacles
 
 # Audio
 - [x] Background Music: [Retro and Electronic Music Pack] (https://slaleky.itch.io/retro-and-electronic-music-pack)
