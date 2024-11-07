@@ -5,6 +5,7 @@ public class Upgrade : MonoBehaviour {
         Health,
         Speed,
         Defense,
+        Attack,
         AttackSpeed,
         RechargeRate,
         AbilityDamage

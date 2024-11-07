@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5972376
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000009536743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.631218
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalRotation.w
@@ -58,37 +58,19 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4441783187693095942}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3036801363884257557}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3285045485667673406}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7810442421017099945}
   m_SourcePrefab: {fileID: 100100000, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
 --- !u!1 &50712582643592088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
   m_PrefabInstance: {fileID: 897697379385349833}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4441783187693095942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 50712582643592088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d6a6dc01cffe447abc19ccbf21a97b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 1
-  score: 1
-  hurtboxType: 1
-  speed: 1
-  attackSpeed: 1
-  defense: 0
 --- !u!114 &3036801363884257557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,7 +98,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4441783187693095942}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainCharacter, Assembly-CSharp
         m_MethodName: MoveActivated
         m_Mode: 0
@@ -135,7 +117,19 @@ MonoBehaviour:
     m_ActionId: d03a0654-3a54-4a08-8510-0bc9f027894f
     m_ActionName: Player/Look[/Mouse/delta,/Pen/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MainCharacter, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 375b060e-924a-4024-a98f-933a5b91c326
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -210,3 +204,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7810442421017099945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50712582643592088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d6a6dc01cffe447abc19ccbf21a97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  score: 0
+  hurtboxType: 1
+  speed: 1
+  attackSpeed: 1
+  defense: 0
+  attack: 1
+  hitbox: {fileID: 5550041878672650297, guid: 1b644fbc517c5df4e90aa7ff281ae1c3, type: 3}
+  sizeHitbox: {x: 1, y: 1, z: 1}

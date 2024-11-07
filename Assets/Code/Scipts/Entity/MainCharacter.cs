@@ -7,6 +7,8 @@ public class MainCharacter : Actor {
     private Ability _ability;
     private Vector2 _moveInput;
     private List<Tuple<Upgrade, int>> _upgrades;
+    
+    private 
 
     public int MaxHealth { get; private set; } = 10;
 
@@ -23,6 +25,9 @@ public class MainCharacter : Actor {
                 break;
             case Upgrade.StatUpgrade.Defense:
                 defense += (int)upgrade.StatUp;
+                break;
+            case Upgrade.StatUpgrade.Attack:
+                attack += (int)upgrade.StatUp;
                 break;
             case Upgrade.StatUpgrade.Speed:
                 speed += upgrade.StatUp;
@@ -41,10 +46,16 @@ public class MainCharacter : Actor {
         }
     }
 
-    public void MoveActivated(InputAction.CallbackContext mv) {
+    public void OnMoveActivated(InputAction.CallbackContext mv) {
         if (mv.started || mv.performed)
             _moveInput = mv.ReadValue<Vector2>();
         if (mv.canceled) _moveInput = Vector2.zero;
+    }
+
+    public void OnAttackedActivated(InputAction.CallbackContext mv) {
+        if (mv.started)
+            
+            spawnHitbox();
     }
 
     protected override void TriggerDeath() {
@@ -52,14 +63,18 @@ public class MainCharacter : Actor {
     }
 
     protected override void Movement() {
-        //The player needs to face the way that the player is inputting
+        //Making sure that the player is facing the correct direction (used for hitboxes)
+        if (_moveInput != Vector2.zero) {
+            float angle = Mathf.Atan2(_moveInput.x, _moveInput.y) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
         Rb.velocity = Vector3.Lerp(new Vector3(Rb.velocity.x, 0, Rb.velocity.z),
                                    new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
     }
 
-    protected override void Attack() { }
-
     public bool HasAbility() {
         return _ability != null;
     }
+
+
 }
