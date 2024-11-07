@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class Upgrade : MonoBehaviour {
-    public enum StatUpgrade {
-        Health,
-        Speed,
-        Defense,
-        Attack,
-        AttackSpeed,
-        RechargeRate,
-        AbilityDamage
-    }
+public enum StatUpgrade {
+    Health,
+    Speed,
+    Defense,
+    Attack,
+    AttackSpeed,
+    RechargeRate,
+    AbilityDamage
+}
 
-    public float StatUp = 1;
-    public StatUpgrade Stat;
+public class Upgrade : MonoBehaviour {
+    public float statUp = 1;
+    public StatUpgrade stat;
 
     public void InInventory() {
         // A function that when called allows the item to be able to be viewed in the inventory

@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MainCharacter : Actor {
+    private static readonly int Bl = Animator.StringToHash("IsBlocking");     //Bool
+    private static readonly int Ab = Animator.StringToHash("IsUsingAbility"); //Bool
+
     private Ability _ability;
+
     private Vector2 _moveInput;
     private List<Tuple<Upgrade, int>> _upgrades;
-    
-    private 
 
     public int MaxHealth { get; private set; } = 10;
 
@@ -19,27 +22,27 @@ public class MainCharacter : Actor {
         if (tuple != default(Tuple<Upgrade, int>))
             _upgrades[_upgrades.IndexOf(tuple)] = new Tuple<Upgrade, int>(tuple.Item1, tuple.Item2 + 1);
 
-        switch (upgrade.Stat) {
-            case Upgrade.StatUpgrade.Health:
-                MaxHealth += (int)upgrade.StatUp;
+        switch (upgrade.stat) {
+            case StatUpgrade.Health:
+                MaxHealth += (int)upgrade.statUp;
                 break;
-            case Upgrade.StatUpgrade.Defense:
-                defense += (int)upgrade.StatUp;
+            case StatUpgrade.Defense:
+                defense += (int)upgrade.statUp;
                 break;
-            case Upgrade.StatUpgrade.Attack:
-                attack += (int)upgrade.StatUp;
+            case StatUpgrade.Attack:
+                attack += (int)upgrade.statUp;
                 break;
-            case Upgrade.StatUpgrade.Speed:
-                speed += upgrade.StatUp;
+            case StatUpgrade.Speed:
+                speed += upgrade.statUp;
                 break;
-            case Upgrade.StatUpgrade.AttackSpeed:
-                attackSpeed += upgrade.StatUp;
+            case StatUpgrade.AttackSpeed:
+                attackSpeed += upgrade.statUp;
                 break;
-            case Upgrade.StatUpgrade.AbilityDamage:
-                _ability.IncreaseDamage((int)upgrade.StatUp);
+            case StatUpgrade.AbilityDamage:
+                _ability.IncreaseDamage((int)upgrade.statUp);
                 break;
-            case Upgrade.StatUpgrade.RechargeRate:
-                _ability.DecreaseRechargeSpeed(upgrade.StatUp);
+            case StatUpgrade.RechargeRate:
+                _ability.DecreaseRechargeSpeed(upgrade.statUp);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -52,22 +55,35 @@ public class MainCharacter : Actor {
         if (mv.canceled) _moveInput = Vector2.zero;
     }
 
-    public void OnAttackedActivated(InputAction.CallbackContext mv) {
-        if (mv.started)
-            
-            spawnHitbox();
+    public void OnAttackedActivated(InputAction.CallbackContext aa) {
+        if (!aa.started) return;
+        Attack();
     }
 
     protected override void TriggerDeath() {
         //When the Player dies
+        AnimatorController.SetBool(Dd, true);
     }
 
     protected override void Movement() {
-        //Making sure that the player is facing the correct direction (used for hitboxes)
+        //IF No input
+        if (_moveInput == Vector2.zero) AnimatorController.SetBool(Mv, false);
+
+        //IF another action is currently happening don't move
+        if (CurrentState.Contains(true)) {
+            _moveInput = Vector2.zero;
+            Rb.velocity = Vector3.zero;
+        }
+
+        //IF there is an action update the looking
         if (_moveInput != Vector2.zero) {
-            float angle = Mathf.Atan2(_moveInput.x, _moveInput.y) * Mathf.Rad2Deg;
+            AnimatorController.SetBool(Mv, true);
+            //Making sure that the player is facing the correct direction (used for hitboxes)
+            var angle = Mathf.Atan2(_moveInput.x, _moveInput.y) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
         }
+
+        //Moving
         Rb.velocity = Vector3.Lerp(new Vector3(Rb.velocity.x, 0, Rb.velocity.z),
                                    new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
     }
@@ -75,6 +91,4 @@ public class MainCharacter : Actor {
     public bool HasAbility() {
         return _ability != null;
     }
-
-
 }

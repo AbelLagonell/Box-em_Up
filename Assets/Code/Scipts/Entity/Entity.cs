@@ -8,7 +8,7 @@ public class Entity : MonoBehaviour {
 
     //-1=> None, 0 => Player, 1 => Enemy, 2 => Both 
     [SerializeField] private int hurtboxType = 2;
-    protected Dictionary<string, bool> HitboxConditions = new();
+    private readonly Dictionary<string, bool> _hitboxConditions = new();
 
     private void Start() {
         InitHitboxDict();
@@ -25,6 +25,7 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void DecreaseHealth(int amount) {
+        if (amount < 0) return;
         health -= amount;
         if (health <= 0) TriggerDeath();
     }
@@ -34,12 +35,12 @@ public class Entity : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    protected bool CheckHitboxTag(string componentTag) {
-        return HitboxConditions.Any(kvp => kvp.Key == componentTag);
+    private bool CheckHitboxTag(string componentTag) {
+        return _hitboxConditions.Any(kvp => kvp.Key == componentTag);
     }
 
-    protected void InitHitboxDict() {
-        HitboxConditions.Add("HitboxPlayer", hurtboxType is 0 or 2);
-        HitboxConditions.Add("HitboxEnemy", hurtboxType is 1 or 2);
+    private void InitHitboxDict() {
+        _hitboxConditions.Add("HitboxPlayer", hurtboxType is 0 or 2);
+        _hitboxConditions.Add("HitboxEnemy", hurtboxType is 1 or 2);
     }
 }
