@@ -20,10 +20,6 @@ public class Entity : MonoBehaviour {
             DecreaseHealth(collision.GetComponent<Hitbox>().damage);
     }
 
-    protected void IncreaseHealth(int amount) {
-        health += amount;
-    }
-
     protected virtual void DecreaseHealth(int amount) {
         if (amount < 0) return;
         health -= amount;

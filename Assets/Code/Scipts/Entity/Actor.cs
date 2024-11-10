@@ -23,7 +23,7 @@ public class Actor : Entity {
     [SerializeField] protected GameObject hitbox;
     [SerializeField] protected Vector3 sizeHitbox = Vector3.one;
     protected Animator AnimatorController;
-    protected bool[] CurrentState = { false, false, false }; //At
+    protected bool[] CurrentState = { false, false, false }; 
     protected Rigidbody Rb;
 
     private void Start() {
@@ -36,6 +36,7 @@ public class Actor : Entity {
     }
 
     protected override void DecreaseHealth(int amount) {
+        if (!CurrentState[(int)StateOrder.Blocking]) return;
         health = amount - defense;
         if (health <= 0) TriggerDeath();
     }
@@ -52,14 +53,17 @@ public class Actor : Entity {
         var cState = AnimatorController.GetCurrentAnimatorStateInfo(0);
         if (cState.IsName("Attack") && cState.normalizedTime >= 1) return;
         AnimatorController.SetFloat(AtSp, attackSpeed);
-        StartCoroutine(ResetAttackFlag());
+        StartCoroutine(ResetFlag(At, (int)StateOrder.Attack, 
+                                 animations[(int)StateOrder.Attack].length * (1+1/attackSpeed)));
         SpawnHitbox(animations[0].length * (1 + 1 / attackSpeed));
         SetAnimationBool(true, At, (int)StateOrder.Attack);
     }
 
     protected virtual void SpawnHitbox(float duration = .75f) {
         if (CurrentState[(int)StateOrder.Attack]) return;
-        var newHitBox = Instantiate(hitbox, transform.forward + transform.position, transform.rotation, transform);
+        var newHitBox = Instantiate(hitbox, 
+                                    transform.forward + transform.position + transform.up * 1.5f, 
+                                    transform.rotation, transform);
         newHitBox.transform.localScale = sizeHitbox;
         var script = newHitBox.GetComponent<Hitbox>();
         script.damage = attack;
@@ -67,13 +71,13 @@ public class Actor : Entity {
         script.Death();
     }
 
-    private IEnumerator ResetAttackFlag() {
-        yield return new WaitForSeconds(animations[0].length * (1 + 1 / attackSpeed));
-        SetAnimationBool(false, At, (int)StateOrder.Attack);
-    }
-
     protected void SetAnimationBool(bool value, int animationHash, int stateIndex) {
         AnimatorController.SetBool(animationHash, value);
         CurrentState[stateIndex] = value;
     }
+    
+   protected IEnumerator ResetFlag(int animationHash, int stateIndex, float delay) {
+           yield return new WaitForSeconds(delay);
+           SetAnimationBool(false, animationHash, stateIndex);
+   } 
 }

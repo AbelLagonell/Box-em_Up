@@ -1,48 +1,61 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public class MainCharacter : Actor {
     private static readonly int Bl = Animator.StringToHash("IsBlocking");     //Bool
     private static readonly int Ab = Animator.StringToHash("IsUsingAbility"); //Bool
 
-    private Ability _ability;
+    [SerializeField] private GameObject _ability;
 
     private Vector2 _moveInput;
-    private List<Tuple<Upgrade, int>> _upgrades;
+    private List<Tuple<UpgradeStats, int>> _upgrades = new();
 
     public int MaxHealth { get; private set; } = 10;
 
-    private void UseAbility() { }
+    private void UseAbility() {
+        _ability.GetComponent<Ability>().OnUse();
+    }
 
-    public void ApplyUpgrade(Upgrade upgrade) {
-        var tuple = _upgrades.Find(t => t.Item1.Equals(upgrade));
-        if (tuple != default(Tuple<Upgrade, int>))
-            _upgrades[_upgrades.IndexOf(tuple)] = new Tuple<Upgrade, int>(tuple.Item1, tuple.Item2 + 1);
+    public void GetAbility(GameObject ability) {
+        _ability = ability;
+    }
 
-        switch (upgrade.stat) {
+    public void ApplyUpgrade(UpgradeStats upgrade) {
+        var tuple = _upgrades.Find(t => t.Item1.Stat == upgrade.Stat);
+        if (tuple == null)
+            _upgrades.Add(new Tuple<UpgradeStats, int>(upgrade, 1));
+        else
+            _upgrades[_upgrades.IndexOf(tuple)] = new Tuple<UpgradeStats, int>(tuple.Item1, tuple.Item2 + 1);
+
+        switch (upgrade.Stat) {
             case StatUpgrade.Health:
-                MaxHealth += (int)upgrade.statUp;
+                MaxHealth += (int)upgrade.StatUp;
                 break;
             case StatUpgrade.Defense:
-                defense += (int)upgrade.statUp;
+                defense += (int)upgrade.StatUp;
                 break;
             case StatUpgrade.Attack:
-                attack += (int)upgrade.statUp;
+                attack += (int)upgrade.StatUp;
                 break;
             case StatUpgrade.Speed:
-                speed += upgrade.statUp;
+                speed += upgrade.StatUp;
                 break;
             case StatUpgrade.AttackSpeed:
-                attackSpeed += upgrade.statUp;
+                attackSpeed += upgrade.StatUp;
                 break;
             case StatUpgrade.AbilityDamage:
-                _ability.IncreaseDamage((int)upgrade.statUp);
+                _ability.GetComponent<Ability>().IncreaseDamage((int)upgrade.StatUp);
                 break;
             case StatUpgrade.RechargeRate:
-                _ability.DecreaseRechargeSpeed(upgrade.statUp);
+                _ability.GetComponent<Ability>().DecreaseRechargeSpeed(upgrade.StatUp);
+                break;
+            case StatUpgrade.AbilityExtra:
+                _ability.GetComponent<Ability>().ChangeAbilityExtra(upgrade.StatUp);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -57,7 +70,24 @@ public class MainCharacter : Actor {
 
     public void OnAttackedActivated(InputAction.CallbackContext aa) {
         if (!aa.started) return;
+        SetAnimationBool(false, Ab, (int)StateOrder.Ability);
         Attack();
+    }
+
+    public void OnBlockActivated(InputAction.CallbackContext bl) {
+        if (!bl.started) return;
+        SetAnimationBool(true, Bl, (int)StateOrder.Blocking);
+        StartCoroutine(ResetFlag(Bl, (int)StateOrder.Blocking,
+                                 animations[(int)StateOrder.Blocking].length));
+    }
+
+    public void OnAbilityActivated(InputAction.CallbackContext ab) {
+        if (!ab.started || !HasAbility()) return; //checking whether he has the ability to use ability
+        if (!_ability.GetComponent<Ability>().CanUseAbility()) return; //checking if ability is ready
+        SetAnimationBool(true, Ab, (int)StateOrder.Ability);
+        SetAnimationBool(false, At, (int)StateOrder.Attack);
+        StartCoroutine(ResetFlag(Ab, (int)StateOrder.Ability,
+                                 animations[(int)StateOrder.Ability].length * (1 + 1 / attackSpeed)));
     }
 
     protected override void TriggerDeath() {
@@ -71,7 +101,7 @@ public class MainCharacter : Actor {
 
         //IF another action is currently happening don't move
         if (CurrentState.Contains(true)) {
-            _moveInput = Vector2.zero;
+            _moveInput  = Vector2.zero;
             Rb.velocity = Vector3.zero;
         }
 

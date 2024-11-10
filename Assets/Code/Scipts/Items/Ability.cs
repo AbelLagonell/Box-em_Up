@@ -1,12 +1,35 @@
+using System;
 using UnityEngine;
 
-public class Ability : MonoBehaviour {
-    public int Damage { get; private set; }
-    public float RechargeSpeed { get; private set; }
+public abstract class Ability : MonoBehaviour {
+    protected int Damage { get; private set; }
+    protected float RechargeSpeedMultiplier { get; private set; } = 1;
+    protected float MaxRechargeSpeed = 1;
+    protected float CurrentCharge = 0;
 
-    public virtual void OnUse() { }
-    public virtual void SpawnHitbox() { }
-    public virtual void InInventory() { }
+    [SerializeField] protected GameObject hitbox;
+    protected Rigidbody Rb;
+
+    private void FixedUpdate() {
+        if (CurrentCharge < 0) return;
+        CurrentCharge -= Time.deltaTime;
+    }
+
+    public virtual void OnUse() {
+        throw new NotImplementedException();
+    }
+
+    public virtual void SpawnHitbox() {
+        throw new NotImplementedException();
+    }
+
+    public virtual void InInventory() {
+        throw new NotImplementedException();
+    }
+
+    public virtual bool CanUseAbility() {
+        throw new NotImplementedException();
+    }
 
     public void IncreaseDamage(int amount) {
         Damage += amount;
@@ -14,6 +37,10 @@ public class Ability : MonoBehaviour {
 
     // Might change this to be more of a multiplier
     public void DecreaseRechargeSpeed(float amount) {
-        RechargeSpeed -= amount;
+        RechargeSpeedMultiplier += 1 / amount - 1;
+    }
+
+    public virtual void ChangeAbilityExtra(float amount) {
+        throw new NotImplementedException();
     }
 }
