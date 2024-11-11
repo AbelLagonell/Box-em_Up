@@ -2,27 +2,51 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.Serialization;
+using Debug = System.Diagnostics.Debug;
+using FixedUpdate = UnityEngine.PlayerLoop.FixedUpdate;
 
 public class MainCharacter : Actor {
     private static readonly int Bl = Animator.StringToHash("IsBlocking");     //Bool
     private static readonly int Ab = Animator.StringToHash("IsUsingAbility"); //Bool
 
-    [SerializeField] private GameObject _ability;
+    [SerializeField] private GameObject ability;
+    private Ability _abilityScript;
 
+    public int MaxHealth { get; private set; } = 10;
     private Vector2 _moveInput;
     private List<Tuple<UpgradeStats, int>> _upgrades = new();
 
-    public int MaxHealth { get; private set; } = 10;
-
-    private void UseAbility() {
-        _ability.GetComponent<Ability>().OnUse();
+    private void FixedUpdate() {
+        if (!HasAbility()) return;
+        if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())
+            _abilityScript.currentCharge -= Time.fixedDeltaTime;
     }
 
-    public void GetAbility(GameObject ability) {
-        _ability = ability;
+
+    private void UseAbility() {
+        ability.GetComponent<Ability>().OnUse();
+    }
+
+    public void GetAbility(GameObject abilityObject) {
+        // Store the ability GameObject reference
+        ability = abilityObject;
+
+        // Get the Ability component from the source object
+        var sourceAbility = abilityObject.GetComponent<Ability>();
+
+        // If there's an existing ability component on this object, remove it
+        var existingAbility = GetComponent<Ability>();
+        if (existingAbility != null) Destroy(existingAbility);
+
+        // Add the same type of Ability component to this object
+        _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
+        Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
+        _abilityScript.ability = sourceAbility.ability;
     }
 
     public void ApplyUpgrade(UpgradeStats upgrade) {
@@ -49,13 +73,13 @@ public class MainCharacter : Actor {
                 attackSpeed += upgrade.StatUp;
                 break;
             case StatUpgrade.AbilityDamage:
-                _ability.GetComponent<Ability>().IncreaseDamage((int)upgrade.StatUp);
+                _abilityScript.IncreaseDamage((int)upgrade.StatUp);
                 break;
             case StatUpgrade.RechargeRate:
-                _ability.GetComponent<Ability>().DecreaseRechargeSpeed(upgrade.StatUp);
+                _abilityScript.DecreaseRechargeSpeed(upgrade.StatUp);
                 break;
             case StatUpgrade.AbilityExtra:
-                _ability.GetComponent<Ability>().ChangeAbilityExtra(upgrade.StatUp);
+                _abilityScript.ChangeAbilityExtra(upgrade.StatUp);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -82,8 +106,9 @@ public class MainCharacter : Actor {
     }
 
     public void OnAbilityActivated(InputAction.CallbackContext ab) {
-        if (!ab.started || !HasAbility()) return; //checking whether he has the ability to use ability
-        if (!_ability.GetComponent<Ability>().CanUseAbility()) return; //checking if ability is ready
+        if (!ab.started || !HasAbility()) return;    //checking whether he has the ability to use ability
+        if (!_abilityScript.CanUseAbility()) return; //checking if ability is ready
+        _abilityScript.OnUse();
         SetAnimationBool(true, Ab, (int)StateOrder.Ability);
         SetAnimationBool(false, At, (int)StateOrder.Attack);
         StartCoroutine(ResetFlag(Ab, (int)StateOrder.Ability,
@@ -118,7 +143,8 @@ public class MainCharacter : Actor {
                                    new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
     }
 
-    public bool HasAbility() {
-        return _ability != null;
+    // ReSharper disable Unity.PerformanceAnalysis
+    private bool HasAbility() {
+        return ability != null;
     }
 }

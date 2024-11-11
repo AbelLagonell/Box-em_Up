@@ -598,7 +598,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2124118476095109872, guid: e81ae44b5ef50d4a78ef5294f40025a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.16
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2124118476095109872, guid: e81ae44b5ef50d4a78ef5294f40025a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -606,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2124118476095109872, guid: e81ae44b5ef50d4a78ef5294f40025a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.73
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2124118476095109872, guid: e81ae44b5ef50d4a78ef5294f40025a3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProjectileAbility
       objectReference: {fileID: 0}
+    - target: {fileID: 6582870915185017724, guid: e81ae44b5ef50d4a78ef5294f40025a3, type: 3}
+      propertyPath: abilityPickup
+      value: 
+      objectReference: {fileID: 1982779078291827926, guid: 99a7105d227ee7535a95b6dfe7be4f23, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,34 +1,23 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Ability : MonoBehaviour {
-    protected int Damage { get; private set; }
+    protected int Damage;
     protected float RechargeSpeedMultiplier { get; private set; } = 1;
     protected float MaxRechargeSpeed = 1;
-    protected float CurrentCharge = 0;
+    public float currentCharge = 0;
 
-    [SerializeField] protected GameObject hitbox;
-    protected Rigidbody Rb;
+    [SerializeField] public GameObject ability;
 
-    private void FixedUpdate() {
-        if (CurrentCharge < 0) return;
-        CurrentCharge -= Time.deltaTime;
-    }
+    public abstract void OnUse();
+    public abstract void InInventory();
+    public abstract void ChangeAbilityExtra(float amount);
 
-    public virtual void OnUse() {
-        throw new NotImplementedException();
-    }
-
-    public virtual void SpawnHitbox() {
-        throw new NotImplementedException();
-    }
-
-    public virtual void InInventory() {
-        throw new NotImplementedException();
-    }
-
-    public virtual bool CanUseAbility() {
-        throw new NotImplementedException();
+    public bool CanUseAbility() {
+        Debug.Log(currentCharge <= 0f ? "Can Use Ability: " : "Cant Use Ability: " + currentCharge);
+        return currentCharge <= 0f;
     }
 
     public void IncreaseDamage(int amount) {
@@ -37,10 +26,10 @@ public abstract class Ability : MonoBehaviour {
 
     // Might change this to be more of a multiplier
     public void DecreaseRechargeSpeed(float amount) {
-        RechargeSpeedMultiplier += 1 / amount - 1;
+        RechargeSpeedMultiplier *= 1 / amount;
     }
 
-    public virtual void ChangeAbilityExtra(float amount) {
-        throw new NotImplementedException();
+    public float GetMaxRechargeSpeed() {
+        return MaxRechargeSpeed * RechargeSpeedMultiplier;
     }
 }
