@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3538746506042905754}
-  - component: {fileID: 3077377789038963005}
+  - component: {fileID: -509054083681228408}
   m_Layer: 0
   m_Name: ProjectileAbilitySpawner
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3077377789038963005
+--- !u!114 &-509054083681228408
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,10 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1982779078291827926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0dac3fb5b344ae8a949bbda8dca1a25, type: 3}
+  m_Script: {fileID: 11500000, guid: d6a105364c76429fa0fda826ebf07d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxRechargeSpeed: 1
   currentCharge: 0
-  ability: {fileID: 452964449797751765, guid: f174ce03c217e93e19c7ab7c99d85a88, type: 3}
-  end: 45
+  ability: {fileID: 5993145367867010956, guid: 702264f39f3216b969d44007211c281b, type: 3}
+  projectileSpeed: 1

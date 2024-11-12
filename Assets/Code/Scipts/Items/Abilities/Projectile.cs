@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Player") || other.CompareTag("HitboxPlayer")) return;
         Destroy(gameObject);
     }
 }

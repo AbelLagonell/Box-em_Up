@@ -41,7 +41,8 @@ public class MainCharacter : Actor {
         // Add the same type of Ability component to this object
         _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
         Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
-        _abilityScript.ability = sourceAbility.ability;
+        _abilityScript.ability          = sourceAbility.ability;
+        _abilityScript.maxRechargeSpeed = sourceAbility.maxRechargeSpeed;
     }
 
     public void ApplyUpgrade(UpgradeStats upgrade) {
