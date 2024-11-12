@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public abstract class Ability : MonoBehaviour {
     protected int Damage;
     protected float RechargeSpeedMultiplier { get; private set; } = 1;
-    protected float MaxRechargeSpeed = 1;
+    public float maxRechargeSpeed = 1;
     public float currentCharge = 0;
 
     [SerializeField] public GameObject ability;
@@ -16,7 +16,6 @@ public abstract class Ability : MonoBehaviour {
     public abstract void ChangeAbilityExtra(float amount);
 
     public bool CanUseAbility() {
-        Debug.Log(currentCharge <= 0f ? "Can Use Ability: " : "Cant Use Ability: " + currentCharge);
         return currentCharge <= 0f;
     }
 
@@ -30,6 +29,6 @@ public abstract class Ability : MonoBehaviour {
     }
 
     public float GetMaxRechargeSpeed() {
-        return MaxRechargeSpeed * RechargeSpeedMultiplier;
+        return maxRechargeSpeed * RechargeSpeedMultiplier;
     }
 }

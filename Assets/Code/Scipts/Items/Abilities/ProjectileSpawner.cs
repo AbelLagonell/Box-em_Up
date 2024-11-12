@@ -1,15 +1,20 @@
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using UnityEngine.Serialization;
 
 public class ProjectileSpawner : Ability {
-    private float _projectileSpeed = 1f;
+    [SerializeField] private float projectileSpeed = 1f;
 
     public override void OnUse() {
-        MaxRechargeSpeed = 10f;
-        currentCharge    = MaxRechargeSpeed * RechargeSpeedMultiplier;
-        Debug.Log(ability.name);
-        Instantiate(ability);
+        maxRechargeSpeed = 10f;
+        currentCharge    = maxRechargeSpeed * RechargeSpeedMultiplier;
+        var projectile = Instantiate(ability,
+                                     transform.forward + Vector3.up * 1.5f,
+                                     Quaternion.Euler(-90, 0, 0));
+
+        projectile.GetComponent<Projectile>().Init(transform.forward * projectileSpeed);
     }
 
     public override void InInventory() {
@@ -17,6 +22,10 @@ public class ProjectileSpawner : Ability {
     }
 
     public override void ChangeAbilityExtra(float amount) {
-        _projectileSpeed *= 1 + 1 / amount;
+        projectileSpeed *= 1 + 1 / amount;
+    }
+
+    private void Update() {
+        currentCharge -= Time.deltaTime;
     }
 }

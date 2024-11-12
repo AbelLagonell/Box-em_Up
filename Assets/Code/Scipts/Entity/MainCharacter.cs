@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.Serialization;
-using Debug = System.Diagnostics.Debug;
 using FixedUpdate = UnityEngine.PlayerLoop.FixedUpdate;
 
 public class MainCharacter : Actor {
@@ -22,14 +21,10 @@ public class MainCharacter : Actor {
     private List<Tuple<UpgradeStats, int>> _upgrades = new();
 
     private void FixedUpdate() {
+        Movement();
         if (!HasAbility()) return;
         if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())
             _abilityScript.currentCharge -= Time.fixedDeltaTime;
-    }
-
-
-    private void UseAbility() {
-        ability.GetComponent<Ability>().OnUse();
     }
 
     public void GetAbility(GameObject abilityObject) {

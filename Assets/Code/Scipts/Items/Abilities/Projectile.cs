@@ -6,14 +6,13 @@ using UnityEngine.PlayerLoop;
 
 public class Projectile : MonoBehaviour {
     private Rigidbody _rb;
-    private float _speed;
 
-    public void Init(float speed) {
-        _rb    = GetComponent<Rigidbody>();
-        _speed = speed;
+    public void Init(Vector3 vector3) {
+        _rb          = GetComponent<Rigidbody>();
+        _rb.velocity = vector3;
     }
 
-    private void FixedUpdate() {
-        _rb.velocity = transform.forward * _speed;
+    private void OnTriggerEnter(Collider other) {
+        Destroy(gameObject);
     }
 }
