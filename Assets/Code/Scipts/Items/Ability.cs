@@ -1,15 +1,13 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class Ability : MonoBehaviour {
+    public float maxRechargeSpeed = 1;
+    public float extraAbility = 1;
+    public float currentCharge;
+    [SerializeField] public GameObject ability;
+
     protected int Damage;
     protected float RechargeSpeedMultiplier { get; private set; } = 1;
-    public float maxRechargeSpeed = 1;
-    public float currentCharge = 0;
-
-    [SerializeField] public GameObject ability;
 
     public abstract void OnUse();
     public abstract void InInventory();

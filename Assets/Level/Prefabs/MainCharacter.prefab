@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.28
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalRotation.w
@@ -340,6 +340,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.00001
       objectReference: {fileID: 0}
+    - target: {fileID: 8717312889043087111, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8717312889043087111, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.82
+      objectReference: {fileID: 0}
     - target: {fileID: 8858541082815862836, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 27.341177
@@ -578,12 +586,13 @@ MonoBehaviour:
   - {fileID: 7400000, guid: c23c3734d0e083c489c432d6ee1b4d8f, type: 2}
   - {fileID: 7400000, guid: cd4f748771dcd264ca517748adb78b11, type: 2}
   - {fileID: 7400000, guid: ccec40d2b70c2534a91ded800884eaa6, type: 2}
-  speed: 1
+  speed: 3
   attackSpeed: 0.5
   defense: 0
   attack: 1
   hitbox: {fileID: 5550041878672650297, guid: 1b644fbc517c5df4e90aa7ff281ae1c3, type: 3}
   sizeHitbox: {x: 3.5, y: 2, z: 3.5}
+  ability: {fileID: 0}
 --- !u!95 &2849183361929329828
 Animator:
   serializedVersion: 5

@@ -1,24 +1,19 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
-using UnityEngine.Serialization;
-using FixedUpdate = UnityEngine.PlayerLoop.FixedUpdate;
 
 public class MainCharacter : Actor {
     private static readonly int Bl = Animator.StringToHash("IsBlocking");     //Bool
     private static readonly int Ab = Animator.StringToHash("IsUsingAbility"); //Bool
 
     [SerializeField] private GameObject ability;
+    private readonly List<Tuple<UpgradeStats, int>> _upgrades = new();
     private Ability _abilityScript;
+    private Vector2 _moveInput;
 
     public int MaxHealth { get; private set; } = 10;
-    private Vector2 _moveInput;
-    private List<Tuple<UpgradeStats, int>> _upgrades = new();
 
     private void FixedUpdate() {
         Movement();
@@ -41,8 +36,9 @@ public class MainCharacter : Actor {
         // Add the same type of Ability component to this object
         _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
         Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
-        _abilityScript.ability          = sourceAbility.ability;
+        _abilityScript.ability = sourceAbility.ability;
         _abilityScript.maxRechargeSpeed = sourceAbility.maxRechargeSpeed;
+        _abilityScript.extraAbility = sourceAbility.extraAbility;
     }
 
     public void ApplyUpgrade(UpgradeStats upgrade) {
@@ -122,7 +118,7 @@ public class MainCharacter : Actor {
 
         //IF another action is currently happening don't move
         if (CurrentState.Contains(true)) {
-            _moveInput  = Vector2.zero;
+            _moveInput = Vector2.zero;
             Rb.velocity = Vector3.zero;
         }
 
@@ -137,9 +133,7 @@ public class MainCharacter : Actor {
         //Moving
         Rb.velocity = Vector3.Lerp(new Vector3(Rb.velocity.x, 0, Rb.velocity.z),
                                    new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
-    }
-
-    // ReSharper disable Unity.PerformanceAnalysis
+    } // ReSharper disable Unity.PerformanceAnalysis
     private bool HasAbility() {
         return ability != null;
     }

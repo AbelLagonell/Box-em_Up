@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public enum StatUpgrade {
@@ -18,7 +17,7 @@ public struct UpgradeStats {
 
     public UpgradeStats(StatUpgrade stat, float statUp) {
         StatUp = statUp;
-        Stat   = stat;
+        Stat = stat;
     }
 }
 
@@ -26,13 +25,15 @@ public class Upgrade : GameItem {
     public float statUp = 1;
     public StatUpgrade stat;
 
-    private void ApplyUpgrade(GameObject player) {
-        player.GetComponent<MainCharacter>().ApplyUpgrade(new UpgradeStats(stat, statUp));
+
+    private void Start() {
+        Init();
+        UpdateTexture((int)stat);
     }
 
-    protected override void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other) {
         if (!other.gameObject.CompareTag("Player")) return;
-        ApplyUpgrade(other.gameObject);
+        other.gameObject.GetComponent<MainCharacter>().ApplyUpgrade(new UpgradeStats(stat, statUp));
         Destroy(gameObject);
     }
 

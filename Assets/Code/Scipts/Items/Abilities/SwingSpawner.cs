@@ -2,16 +2,23 @@ using System;
 using UnityEngine;
 
 public class SwingSpawner : Ability {
-    [SerializeField] private float totalAngle = 90f;
     public float radius = 2.3f;
+
+    private SwingSpawner() {
+        extraAbility = 90f;
+    }
+
+    private void Update() {
+        currentCharge -= Time.deltaTime;
+    }
 
     public override void OnUse() {
         currentCharge = maxRechargeSpeed * RechargeSpeedMultiplier;
+        Debug.Log("Grumpy: " + transform.position);
         var cSwing = Instantiate(ability,
-                                 transform.position + transform.forward * 1.5f + transform.right * radius -
-                                 transform.up * 2,
+                                 transform.position + transform.up * 1.5f,
                                  Quaternion.Euler(-90, 0, 0));
-        cSwing.GetComponent<Swing>().newAngle(totalAngle, radius);
+        cSwing.GetComponent<Swing>().NewAngle(extraAbility, radius);
     }
 
     public override void InInventory() {
@@ -19,10 +26,6 @@ public class SwingSpawner : Ability {
     }
 
     public override void ChangeAbilityExtra(float amount) {
-        totalAngle += amount;
-    }
-
-    private void Update() {
-        currentCharge -= Time.deltaTime;
+        extraAbility += amount;
     }
 }

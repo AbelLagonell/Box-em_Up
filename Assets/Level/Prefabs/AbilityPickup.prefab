@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3042604213481568859}
   - component: {fileID: 7711591619989187783}
   m_Layer: 0
-  m_Name: ProjectilePickup
+  m_Name: AbilityPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c14f53f1dbb5b471901cff455c07010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilityPickup: {fileID: 1982779078291827926, guid: 99a7105d227ee7535a95b6dfe7be4f23, type: 3}
+  textures:
+  - {fileID: 2800000, guid: 8757ff61e4a468c088cefd8072653a39, type: 3}
+  - {fileID: 2800000, guid: 5f1378cfae7034256aac442f57a8bf5d, type: 3}
+  abilitySpawner:
+  - {fileID: 1982779078291827926, guid: 99a7105d227ee7535a95b6dfe7be4f23, type: 3}
+  - {fileID: 3845180400214360093, guid: f85a84cee35bff4708a0e44097ad7014, type: 3}
+  ability: 0
 --- !u!65 &3042604213481568859
 BoxCollider:
   m_ObjectHideFlags: 0

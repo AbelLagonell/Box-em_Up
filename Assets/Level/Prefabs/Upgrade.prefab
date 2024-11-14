@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1123687840950760377}
   - component: {fileID: 3021526224485314912}
   m_Layer: 0
-  m_Name: UpgradePickup
+  m_Name: Upgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,6 +100,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statUp: 1
   stat: 0
+  textures:
+  - {fileID: 2800000, guid: a0c45d0c9a98bf7438cf6086008c404a, type: 3}
+  - {fileID: 2800000, guid: d6c85dcf9404bab4ba3e8aef36a33a42, type: 3}
+  - {fileID: 2800000, guid: 39a7a04e3caafe444a3515e326b1ae8f, type: 3}
+  - {fileID: 2800000, guid: 2c779c30d36e79a4887c3ac86437db09, type: 3}
+  - {fileID: 2800000, guid: 636b5a73456a4ab44ae04ce7a03c048c, type: 3}
+  - {fileID: 2800000, guid: d55076d4618e98d41ac14143f06fb7ef, type: 3}
+  - {fileID: 2800000, guid: d366d8a98313d91409b35fa4d3451734, type: 3}
+  - {fileID: 2800000, guid: a1a6ff552f91d5047966c769c9b35081, type: 3}
 --- !u!65 &1123687840950760377
 BoxCollider:
   m_ObjectHideFlags: 0

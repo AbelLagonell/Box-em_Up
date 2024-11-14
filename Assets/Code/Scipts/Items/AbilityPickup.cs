@@ -1,11 +1,22 @@
 using UnityEngine;
 
-public class AbilityPickup : GameItem {
-    public GameObject abilityPickup;
+public enum AbilityType {
+    Projectile,
+    Swing
+}
 
-    protected override void OnTriggerEnter(Collider other) {
+public class AbilityPickup : GameItem {
+    public AbilityType ability;
+    [SerializeField] private GameObject[] abilitySpawner;
+
+    private void Start() {
+        Init();
+        UpdateTexture((int)ability);
+    }
+
+    private void OnTriggerEnter(Collider other) {
         if (!other.gameObject.CompareTag("Player")) return;
-        other.gameObject.GetComponent<MainCharacter>().GetAbility(abilityPickup);
+        other.gameObject.GetComponent<MainCharacter>().GetAbility(abilitySpawner[(int)ability]);
         Destroy(gameObject);
     }
 }

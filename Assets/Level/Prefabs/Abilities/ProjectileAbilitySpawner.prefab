@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a105364c76429fa0fda826ebf07d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRechargeSpeed: 1
+  maxRechargeSpeed: 3
   currentCharge: 0
   ability: {fileID: 5993145367867010956, guid: 702264f39f3216b969d44007211c281b, type: 3}
-  projectileSpeed: 1
+  projectileSpeed: 5
