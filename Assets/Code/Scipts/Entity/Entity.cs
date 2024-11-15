@@ -16,8 +16,9 @@ public class Entity : MonoBehaviour {
     }
 
     protected void OnTriggerEnter(Collider collision) {
-        if (CheckHitboxTag(collision.tag))
-            DecreaseHealth(collision.GetComponent<Hitbox>().damage);
+        if (CheckHitboxTag(collision.tag)) DecreaseHealth(collision.GetComponent<Hitbox>().damage);
+
+        if (CheckHitboxTag("HitboxPlayer")) GameStatTracker.Instance?.IncrementMultiplier();
     }
 
     protected virtual void DecreaseHealth(int amount) {

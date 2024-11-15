@@ -1,48 +1,67 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameStatTracker : MonoBehaviour {
-    public GameStats CurStats;
+    private GameStats _curStats;
     public static GameStatTracker Instance { get; private set; }
 
     private void Awake() {
         if (Instance != null && Instance != this) Destroy(gameObject);
-
-        Instance = this;
+        _curStats = new GameStats();
+        Instance  = this;
         DontDestroyOnLoad(gameObject);
     }
 
     private void Update() {
-        CurStats.playTime = Time.timeSinceLevelLoad;
+        //_curStats.PlayTime = Time.timeSinceLevelLoad;
     }
 
     public void AddScore(int score) {
-        CurStats.totalScore += score * CurStats.currentMultiplier;
-        OnScoreChanged?.Invoke(CurStats.totalScore);
+        _curStats.TotalScore += score * _curStats.CurrentMultiplier;
+        OnScoreChanged?.Invoke(_curStats.TotalScore);
     }
 
     public void IncrementMultiplier() {
-        CurStats.currentMultiplier++;
-        OnMultiplierChanged?.Invoke(CurStats.currentMultiplier);
+        _curStats.CurrentMultiplier++;
+        StartCoroutine(UpdateMultiplier());
     }
 
     public void ResetMultiplier() {
-        CurStats.currentMultiplier = 1;
-        OnMultiplierChanged?.Invoke(CurStats.currentMultiplier);
+        _curStats.CurrentMultiplier = 1;
+        OnMultiplierChanged?.Invoke(_curStats.CurrentMultiplier);
     }
 
     public void HealthUpdate(int health) {
-        CurStats.playerHealth = health;
+        _curStats.CPlayerHealth = health;
         OnPlayerHealthChanged?.Invoke(health);
     }
 
-    public void resetCurStats() {
-        CurStats = new GameStats();
+    public void MaxHealthUpdate(int health) {
+        _curStats.MaxPlayerHealth = health;
+    }
+
+    public void ResetCurStats() {
+        _curStats = new GameStats();
     }
 
     public void IncrementWaveCount() {
-        CurStats.waveCount++;
-        OnWaveChange?.Invoke(CurStats.waveCount);
+        _curStats.WaveCount++;
+        OnWaveChange?.Invoke(_curStats.WaveCount);
+    }
+
+    public int GetScore() {
+        return _curStats.TotalScore;
+    }
+
+    public void DecrementScore(int amount) {
+        _curStats.TotalScore -= amount;
+        OnScoreChanged?.Invoke(_curStats.TotalScore);
+    }
+
+    private IEnumerator UpdateMultiplier() {
+        yield return new WaitForSeconds(0.1f);
+        OnMultiplierChanged?.Invoke(_curStats.CurrentMultiplier);
     }
 
     public event Action<int> OnScoreChanged;

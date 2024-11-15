@@ -13,13 +13,21 @@ public class MainCharacter : Actor {
     private Ability _abilityScript;
     private Vector2 _moveInput;
 
-    public int MaxHealth { get; private set; } = 10;
+    private int _maxHealth = 10;
 
     private void FixedUpdate() {
         Movement();
         if (!HasAbility()) return;
         if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())
             _abilityScript.currentCharge -= Time.fixedDeltaTime;
+    }
+
+    protected override void DecreaseHealth(int amount) {
+        if (!CurrentState[(int)StateOrder.Blocking]) return;
+        health = amount - defense;
+        GameStatTracker.Instance?.HealthUpdate(health);
+        GameStatTracker.Instance?.ResetMultiplier();
+        if (health <= 0) TriggerDeath();
     }
 
     public void GetAbility(GameObject abilityObject) {
@@ -36,9 +44,9 @@ public class MainCharacter : Actor {
         // Add the same type of Ability component to this object
         _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
         Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
-        _abilityScript.ability = sourceAbility.ability;
+        _abilityScript.ability          = sourceAbility.ability;
         _abilityScript.maxRechargeSpeed = sourceAbility.maxRechargeSpeed;
-        _abilityScript.extraAbility = sourceAbility.extraAbility;
+        _abilityScript.extraAbility     = sourceAbility.extraAbility;
     }
 
     public void ApplyUpgrade(UpgradeStats upgrade) {
@@ -50,7 +58,8 @@ public class MainCharacter : Actor {
 
         switch (upgrade.Stat) {
             case StatUpgrade.Health:
-                MaxHealth += (int)upgrade.StatUp;
+                _maxHealth += (int)upgrade.StatUp;
+                GameStatTracker.Instance?.HealthUpdate(_maxHealth);
                 break;
             case StatUpgrade.Defense:
                 defense += (int)upgrade.StatUp;
@@ -118,7 +127,7 @@ public class MainCharacter : Actor {
 
         //IF another action is currently happening don't move
         if (CurrentState.Contains(true)) {
-            _moveInput = Vector2.zero;
+            _moveInput  = Vector2.zero;
             Rb.velocity = Vector3.zero;
         }
 
@@ -134,6 +143,7 @@ public class MainCharacter : Actor {
         Rb.velocity = Vector3.Lerp(new Vector3(Rb.velocity.x, 0, Rb.velocity.z),
                                    new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
     } // ReSharper disable Unity.PerformanceAnalysis
+
     private bool HasAbility() {
         return ability != null;
     }
