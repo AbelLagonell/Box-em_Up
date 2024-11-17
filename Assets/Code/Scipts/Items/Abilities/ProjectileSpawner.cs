@@ -26,4 +26,8 @@ public class ProjectileSpawner : Ability {
     public override void ChangeAbilityExtra(float amount) {
         extraAbility *= 1 + 1 / amount;
     }
+
+    public override AbilityType GetAbilityType() {
+        return AbilityType.Projectile;
+    }
 }

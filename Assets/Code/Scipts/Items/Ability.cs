@@ -5,6 +5,7 @@ public abstract class Ability : MonoBehaviour {
     public float extraAbility = 1;
     public float currentCharge;
     [SerializeField] public GameObject ability;
+    protected AbilityType abilityType;
 
     protected int Damage;
     protected float RechargeSpeedMultiplier { get; private set; } = 1;
@@ -12,6 +13,7 @@ public abstract class Ability : MonoBehaviour {
     public abstract void OnUse();
     public abstract void InInventory();
     public abstract void ChangeAbilityExtra(float amount);
+    public abstract AbilityType GetAbilityType();
 
     public bool CanUseAbility() {
         return currentCharge <= 0f;

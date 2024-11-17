@@ -14,9 +14,7 @@ public class AbilityPickup : GameItem {
         UpdateTexture((int)ability);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (!other.gameObject.CompareTag("Player")) return;
-        other.gameObject.GetComponent<MainCharacter>().GetAbility(abilitySpawner[(int)ability]);
-        Destroy(gameObject);
+    public override void Apply() {
+        MainCharacter.Instance.GetAbility(abilitySpawner[(int)ability]);
     }
 }

@@ -10,14 +10,14 @@ public class Entity : MonoBehaviour {
     [SerializeField] private int hurtboxType = 2;
     private readonly Dictionary<string, bool> _hitboxConditions = new();
 
-    private void Start() {
+    protected void Start() {
         InitHitboxDict();
         if (health < 0) health = 10;
     }
 
     protected void OnTriggerEnter(Collider collision) {
+        if (collision.GetComponent<Hitbox>() == null) return;
         if (CheckHitboxTag(collision.tag)) DecreaseHealth(collision.GetComponent<Hitbox>().damage);
-
         if (CheckHitboxTag("HitboxPlayer")) GameStatTracker.Instance?.IncrementMultiplier();
     }
 

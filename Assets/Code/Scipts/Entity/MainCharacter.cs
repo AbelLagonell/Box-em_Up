@@ -11,13 +11,22 @@ public class MainCharacter : Actor {
     [SerializeField] private GameObject ability;
     private readonly List<Tuple<UpgradeStats, int>> _upgrades = new();
     private Ability _abilityScript;
-    private Vector2 _moveInput;
 
     private int _maxHealth = 10;
+    private Vector2 _moveInput;
+
+    public static MainCharacter Instance { get; private set; }
+
+    protected new void Start() {
+        base.Start();
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void FixedUpdate() {
         Movement();
-        if (!HasAbility()) return;
+        if (HasAbility() == -1) return;
         if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())
             _abilityScript.currentCharge -= Time.fixedDeltaTime;
     }
@@ -44,9 +53,9 @@ public class MainCharacter : Actor {
         // Add the same type of Ability component to this object
         _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
         Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
-        _abilityScript.ability          = sourceAbility.ability;
+        _abilityScript.ability = sourceAbility.ability;
         _abilityScript.maxRechargeSpeed = sourceAbility.maxRechargeSpeed;
-        _abilityScript.extraAbility     = sourceAbility.extraAbility;
+        _abilityScript.extraAbility = sourceAbility.extraAbility;
     }
 
     public void ApplyUpgrade(UpgradeStats upgrade) {
@@ -57,29 +66,30 @@ public class MainCharacter : Actor {
             _upgrades[_upgrades.IndexOf(tuple)] = new Tuple<UpgradeStats, int>(tuple.Item1, tuple.Item2 + 1);
 
         switch (upgrade.Stat) {
-            case StatUpgrade.Health:
+            case UpgradeType.Health:
                 _maxHealth += (int)upgrade.StatUp;
+                health += _maxHealth;
                 GameStatTracker.Instance?.HealthUpdate(_maxHealth);
                 break;
-            case StatUpgrade.Defense:
+            case UpgradeType.Defense:
                 defense += (int)upgrade.StatUp;
                 break;
-            case StatUpgrade.Attack:
+            case UpgradeType.Attack:
                 attack += (int)upgrade.StatUp;
                 break;
-            case StatUpgrade.Speed:
+            case UpgradeType.Speed:
                 speed += upgrade.StatUp;
                 break;
-            case StatUpgrade.AttackSpeed:
-                attackSpeed += upgrade.StatUp;
+            case UpgradeType.AttackSpeed:
+                attackSpeed *= 1 + 1 / upgrade.StatUp;
                 break;
-            case StatUpgrade.AbilityDamage:
+            case UpgradeType.AbilityDamage:
                 _abilityScript.IncreaseDamage((int)upgrade.StatUp);
                 break;
-            case StatUpgrade.RechargeRate:
+            case UpgradeType.RechargeRate:
                 _abilityScript.DecreaseRechargeSpeed(upgrade.StatUp);
                 break;
-            case StatUpgrade.AbilityExtra:
+            case UpgradeType.AbilityExtra:
                 _abilityScript.ChangeAbilityExtra(upgrade.StatUp);
                 break;
             default:
@@ -107,8 +117,8 @@ public class MainCharacter : Actor {
     }
 
     public void OnAbilityActivated(InputAction.CallbackContext ab) {
-        if (!ab.started || !HasAbility()) return;    //checking whether he has the ability to use ability
-        if (!_abilityScript.CanUseAbility()) return; //checking if ability is ready
+        if (!ab.started || HasAbility() == -1) return; //checking whether he has the ability to use ability
+        if (!_abilityScript.CanUseAbility()) return;   //checking if ability is ready
         _abilityScript.OnUse();
         SetAnimationBool(true, Ab, (int)StateOrder.Ability);
         SetAnimationBool(false, At, (int)StateOrder.Attack);
@@ -127,7 +137,7 @@ public class MainCharacter : Actor {
 
         //IF another action is currently happening don't move
         if (CurrentState.Contains(true)) {
-            _moveInput  = Vector2.zero;
+            _moveInput = Vector2.zero;
             Rb.velocity = Vector3.zero;
         }
 
@@ -144,7 +154,17 @@ public class MainCharacter : Actor {
                                    new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
     } // ReSharper disable Unity.PerformanceAnalysis
 
-    private bool HasAbility() {
-        return ability != null;
+    public int HasAbility() {
+        if (_abilityScript == null) return -1;
+        return _abilityScript.GetAbilityType() switch {
+            AbilityType.Projectile => 0,
+            AbilityType.Swing      => 1,
+            _                      => -1
+        };
+    }
+
+    public int GetUpgradeAmount(UpgradeType upgradeType) {
+        var tuple = _upgrades.Find(t => t.Item1.Stat == upgradeType);
+        return tuple?.Item2 ?? 0;
     }
 }

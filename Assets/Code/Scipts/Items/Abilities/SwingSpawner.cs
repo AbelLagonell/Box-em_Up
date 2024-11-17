@@ -26,6 +26,10 @@ public class SwingSpawner : Ability {
     }
 
     public override void ChangeAbilityExtra(float amount) {
-        extraAbility += amount;
+        extraAbility += 30f;
+    }
+
+    public override AbilityType GetAbilityType() {
+        return AbilityType.Swing;
     }
 }

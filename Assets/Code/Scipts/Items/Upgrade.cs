@@ -1,6 +1,6 @@
-using UnityEngine;
+using System;
 
-public enum StatUpgrade {
+public enum UpgradeType {
     Health,
     Speed,
     Defense,
@@ -12,32 +12,51 @@ public enum StatUpgrade {
 }
 
 public struct UpgradeStats {
-    public StatUpgrade Stat;
-    public float StatUp;
+    public readonly UpgradeType Stat;
+    public readonly float StatUp;
 
-    public UpgradeStats(StatUpgrade stat, float statUp) {
+    public UpgradeStats(UpgradeType stat, float statUp) {
         StatUp = statUp;
         Stat = stat;
     }
 }
 
 public class Upgrade : GameItem {
-    public float statUp = 1;
-    public StatUpgrade stat;
+    public float statUp;
+    public UpgradeType stat;
 
-
-    private void Start() {
+    public void StartUp(UpgradeType upgradeType) {
         Init();
-        UpdateTexture((int)stat);
+        stat = upgradeType;
+        SetStatUp(upgradeType);
+        UpdateTexture((int)upgradeType);
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (!other.gameObject.CompareTag("Player")) return;
-        other.gameObject.GetComponent<MainCharacter>().ApplyUpgrade(new UpgradeStats(stat, statUp));
-        Destroy(gameObject);
+    public override void Apply() {
+        MainCharacter.Instance.ApplyUpgrade(new UpgradeStats(stat, statUp));
     }
 
     public void InInventory() {
         // A function that when called allows the item to be able to be viewed in the inventory
+    }
+
+    private void SetStatUp(UpgradeType upgradeType) {
+        // ReSharper disable once ConvertSwitchStatementToSwitchExpression
+        switch (upgradeType) {
+            case UpgradeType.Health:
+            case UpgradeType.Speed:
+            case UpgradeType.Defense:
+            case UpgradeType.Attack:
+            case UpgradeType.AbilityDamage:
+                statUp = 1;
+                break;
+            case UpgradeType.AttackSpeed:
+            case UpgradeType.RechargeRate:
+            case UpgradeType.AbilityExtra:
+                statUp = 2;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(upgradeType), upgradeType, null);
+        }
     }
 }

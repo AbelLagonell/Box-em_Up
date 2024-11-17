@@ -19,4 +19,6 @@ public class GameItem : MonoBehaviour {
         if (textures.Length > 0 && _meshRenderer != null)
             _meshRenderer.material.mainTexture = textures[index];
     }
+
+    public virtual void Apply() { }
 }

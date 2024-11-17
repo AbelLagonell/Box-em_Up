@@ -9,36 +9,32 @@ public class GameStatTracker : MonoBehaviour {
     private void Awake() {
         if (Instance != null && Instance != this) Destroy(gameObject);
         _curStats = new GameStats();
-        Instance  = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Update() {
-        //_curStats.PlayTime = Time.timeSinceLevelLoad;
-    }
-
     public void AddScore(int score) {
-        _curStats.TotalScore += score * _curStats.CurrentMultiplier;
-        OnScoreChanged?.Invoke(_curStats.TotalScore);
+        _curStats.totalScore += score * _curStats.currentMultiplier;
+        OnScoreChanged?.Invoke(_curStats.totalScore);
     }
 
     public void IncrementMultiplier() {
-        _curStats.CurrentMultiplier++;
+        _curStats.currentMultiplier++;
         StartCoroutine(UpdateMultiplier());
     }
 
     public void ResetMultiplier() {
-        _curStats.CurrentMultiplier = 1;
-        OnMultiplierChanged?.Invoke(_curStats.CurrentMultiplier);
+        _curStats.currentMultiplier = 1;
+        OnMultiplierChanged?.Invoke(_curStats.currentMultiplier);
     }
 
     public void HealthUpdate(int health) {
-        _curStats.CPlayerHealth = health;
+        _curStats.cPlayerHealth = health;
         OnPlayerHealthChanged?.Invoke(health);
     }
 
     public void MaxHealthUpdate(int health) {
-        _curStats.MaxPlayerHealth = health;
+        _curStats.maxPlayerHealth = health;
     }
 
     public void ResetCurStats() {
@@ -46,22 +42,26 @@ public class GameStatTracker : MonoBehaviour {
     }
 
     public void IncrementWaveCount() {
-        _curStats.WaveCount++;
-        OnWaveChange?.Invoke(_curStats.WaveCount);
+        _curStats.waveCount++;
+        OnWaveChange?.Invoke(_curStats.waveCount);
     }
 
     public int GetScore() {
-        return _curStats.TotalScore;
+        return _curStats.totalScore;
+    }
+
+    public int GetWaveCount() {
+        return _curStats.waveCount;
     }
 
     public void DecrementScore(int amount) {
-        _curStats.TotalScore -= amount;
-        OnScoreChanged?.Invoke(_curStats.TotalScore);
+        _curStats.totalScore -= amount;
+        OnScoreChanged?.Invoke(_curStats.totalScore);
     }
 
     private IEnumerator UpdateMultiplier() {
         yield return new WaitForSeconds(0.1f);
-        OnMultiplierChanged?.Invoke(_curStats.CurrentMultiplier);
+        OnMultiplierChanged?.Invoke(_curStats.currentMultiplier);
     }
 
     public event Action<int> OnScoreChanged;
