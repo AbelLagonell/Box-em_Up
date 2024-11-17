@@ -14,11 +14,10 @@ public class SwingSpawner : Ability {
 
     public override void OnUse() {
         currentCharge = maxRechargeSpeed * RechargeSpeedMultiplier;
-        Debug.Log("Grumpy: " + transform.position);
         var cSwing = Instantiate(ability,
                                  transform.position + transform.up * 1.5f,
-                                 Quaternion.Euler(-90, 0, 0));
-        cSwing.GetComponent<Swing>().NewAngle(extraAbility, radius);
+                                 transform.rotation);
+        cSwing.GetComponent<Swing>().NewAngle(extraAbility, radius, transform.rotation);
     }
 
     public override void InInventory() {

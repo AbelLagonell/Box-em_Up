@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class Spawner : MonoBehaviour {
+    public bool Active { get; private set; } = true;
+
+    private void OnTriggerEnter(Collider other) {
+        if (!other.CompareTag("Player")) return;
+        Active = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnTriggerExit(Collider other) {
+        if (!other.CompareTag("Player")) return;
+        Active = true;
+    }
+
+    public void Init(float radius) {
+        var sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.radius = radius;
     }
 }

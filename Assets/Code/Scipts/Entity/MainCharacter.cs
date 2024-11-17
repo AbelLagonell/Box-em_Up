@@ -33,7 +33,7 @@ public class MainCharacter : Actor {
 
     protected override void DecreaseHealth(int amount) {
         if (!CurrentState[(int)StateOrder.Blocking]) return;
-        health = amount - defense;
+        health -= amount - defense;
         GameStatTracker.Instance?.HealthUpdate(health);
         GameStatTracker.Instance?.ResetMultiplier();
         if (health <= 0) TriggerDeath();

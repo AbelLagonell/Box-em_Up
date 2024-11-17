@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum StateOrder {
     Attack,
@@ -22,6 +23,8 @@ public class Actor : Entity {
 
     [SerializeField] protected GameObject hitbox;
     [SerializeField] protected Vector3 sizeHitbox = Vector3.one;
+
+    private UnityEvent _onDeath;
     protected Animator AnimatorController;
     protected bool[] CurrentState = { false, false, false };
     protected Rigidbody Rb;
@@ -37,8 +40,8 @@ public class Actor : Entity {
     }
 
     protected override void DecreaseHealth(int amount) {
-        if (!CurrentState[(int)StateOrder.Blocking]) return;
-        health = amount - defense;
+        if (CurrentState[(int)StateOrder.Blocking]) return;
+        health -= amount - defense;
         if (health <= 0) TriggerDeath();
     }
 
@@ -47,6 +50,10 @@ public class Actor : Entity {
         //Animation for movement
     }
 
+    protected override void TriggerDeath() {
+        Waves.Instance.EnemyDied();
+        base.TriggerDeath();
+    }
 
     //? Once the player is close enough stop moving and then attack towards the last known location.
 

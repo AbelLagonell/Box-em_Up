@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce37ddb2df547779d355ae46e63a44c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalArcAngle: 180
+  totalArcAngle: 90
   arcDuration: 1
 --- !u!1 &8814995053239988285
 GameObject:

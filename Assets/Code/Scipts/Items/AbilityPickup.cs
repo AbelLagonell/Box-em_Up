@@ -9,7 +9,8 @@ public class AbilityPickup : GameItem {
     public AbilityType ability;
     [SerializeField] private GameObject[] abilitySpawner;
 
-    private void Start() {
+    public void StartUp(AbilityType abilityType) {
+        ability = abilityType;
         Init();
         UpdateTexture((int)ability);
     }

@@ -33,12 +33,14 @@ public struct PickupType {
 
 public class Shopkeep : MonoBehaviour {
     private static int _hasAbility;
+    private static readonly HashSet<int> _currentShopPickups = new();
     [SerializeField] private GameObject[] pickups;
     public Multipliers multipliers;
     private readonly List<PickupType> _displayPickups = new();
     private Transform[] _group;
     private Transform[] _replacement;
     private int _waveCount = 1;
+
 
     private void Awake() {
         GameStatTracker.Instance.OnWaveChange += DestroySelf;
@@ -92,7 +94,8 @@ public class Shopkeep : MonoBehaviour {
         var text = group.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         text.text = price.ToString();
 
-        var upgrade = Instantiate(pickups[0], pos, Quaternion.identity, group);
+        var abilityPickup = Instantiate(pickups[0], pos, Quaternion.identity, group);
+        abilityPickup.GetComponent<AbilityPickup>().StartUp(abilityType);
         _displayPickups.Add(new PickupType(true, (int)abilityType));
     }
 
@@ -143,41 +146,60 @@ public class Shopkeep : MonoBehaviour {
         Destroy(transform.GetChild(childIndex).GetComponentInChildren<GameItem>().gameObject);
     }
 
-    public static int GetRandomPickup() {
+    private static int GetRandomPickup() {
         var possiblePickups = new List<int>();
 
         // Add all basic upgrades (first 5 from UpgradeType enum)
-        for (var i = 0; i < 5; i++) possiblePickups.Add(i);
+        for (var i = 0; i < 5; i++)
+            // Only add if not already picked in this shop
+            if (!_currentShopPickups.Contains(i))
+                possiblePickups.Add(i);
 
         if (_hasAbility != -1) // Has an ability
         {
-            // Add RechargeRate, AbilityDamage, and AbilityExtra
-            possiblePickups.Add((int)UpgradeType.RechargeRate);
-            possiblePickups.Add((int)UpgradeType.AbilityDamage);
-            possiblePickups.Add((int)UpgradeType.AbilityExtra);
+            // Add ability-related upgrades if not already picked
+            if (!_currentShopPickups.Contains((int)UpgradeType.RechargeRate))
+                possiblePickups.Add((int)UpgradeType.RechargeRate);
+            if (!_currentShopPickups.Contains((int)UpgradeType.AbilityDamage))
+                possiblePickups.Add((int)UpgradeType.AbilityDamage);
+            if (!_currentShopPickups.Contains((int)UpgradeType.AbilityExtra))
+                possiblePickups.Add((int)UpgradeType.AbilityExtra);
 
-            // Add the ability they don't have
-            possiblePickups.Add(8 + (_hasAbility == 0 ? 1 : 0)); // 8 offset for abilities
-        } else                                                   // No ability
+            // Add the ability they don't have if not already picked
+            var otherAbility = 8 + (_hasAbility == 0 ? 1 : 0);
+            if (!_currentShopPickups.Contains(otherAbility))
+                possiblePickups.Add(otherAbility);
+        } else // No ability
         {
-            // Add both abilities
-            possiblePickups.Add(8); // Projectile
-            possiblePickups.Add(9); // Swing
+            // Add abilities if not already picked
+            if (!_currentShopPickups.Contains(8))
+                possiblePickups.Add(8); // Projectile
+            if (!_currentShopPickups.Contains(9))
+                possiblePickups.Add(9); // Swing
+        }
+
+        // If we've used all possible pickups, something's wrong
+        if (possiblePickups.Count == 0) {
+            Debug.LogWarning("No more unique pickups available!");
+            return -1; // Or handle this case as needed
         }
 
         // Get random index
         var randomIndex = Random.Range(0, possiblePickups.Count);
-        return possiblePickups[randomIndex];
+        var selectedPickup = possiblePickups[randomIndex];
+
+        // Add to current shop pickups
+        _currentShopPickups.Add(selectedPickup);
+
+        return selectedPickup;
     }
 
-    // Helper method to convert the random number to the appropriate type
-    public static (bool isAbility, int index) ConvertRandomToType(int random) {
+    private static (bool isAbility, int index) ConvertRandomToType(int random) {
         return random >= 8
-            ? // Ability types start at 8
-            (true, random - 8)
-            :                // Subtract 8 to get actual ability index
-            (false, random); // Upgrade type
+            ? (true, random - 8)
+            : (false, random);
     }
+
 
     private void DestroySelf(int dummy) {
         Debug.Log(dummy);
