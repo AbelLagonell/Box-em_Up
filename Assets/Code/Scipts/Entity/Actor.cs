@@ -1,11 +1,14 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public enum StateOrder {
     Attack,
     Ability,
-    Blocking
+    Blocking,
+    Hit
 }
 
 public class Actor : Entity {
@@ -27,8 +30,12 @@ public class Actor : Entity {
 
     private UnityEvent _onDeath;
     protected Animator AnimatorController;
-    protected bool[] CurrentState = { false, false, false };
+    protected bool[] CurrentState = { false, false, false, false };
     protected Rigidbody Rb;
+
+    // Enemy Stuff
+    private NavMeshAgent _agent;
+    private float _detectionRadius;
 
     protected new void Start() {
         base.Start();
@@ -43,17 +50,28 @@ public class Actor : Entity {
     protected override void DecreaseHealth(int amount) {
         if (CurrentState[(int)StateOrder.Blocking]) return;
         health -= amount - defense;
+        GotHit();
         if (health <= 0) TriggerDeath();
     }
 
     protected virtual void Movement() {
         //Move towards the player crudely and then switch to navmesh would be better
         //Animation for movement
+        _agent.speed = 0;
+        if (!CurrentState.Contains(true)) _agent.speed = speed;
+        Debug.DrawCircle(transform.position, _detectionRadius, 32, Color.cyan);
+        _agent.SetDestination(MainCharacter.Instance.transform.position);
+        UnityEngine.Debug.DrawLine(transform.position, MainCharacter.Instance.transform.position, Color.red);
     }
 
     protected override void TriggerDeath() {
         Waves.Instance.EnemyDied();
         base.TriggerDeath();
+    }
+
+    protected void GotHit() {
+        SetAnimationBool(true, Ht, (int)StateOrder.Hit);
+        StartCoroutine(ResetFlag(Ht, (int)StateOrder.Hit, animations[(int)StateOrder.Hit].length));
     }
 
     //? Once the player is close enough stop moving and then attack towards the last known location.

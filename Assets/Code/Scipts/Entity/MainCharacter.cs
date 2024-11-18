@@ -37,6 +37,7 @@ public class MainCharacter : Actor {
     }
 
     private void FixedUpdate() {
+        if (transform.position.y < -10f) DecreaseHealth(health + 1);
         Movement();
         if (HasAbility() == -1) return;
         if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())
@@ -82,6 +83,7 @@ public class MainCharacter : Actor {
         health -= amount - defense;
         GameStatTracker.Instance?.HealthUpdate(health);
         GameStatTracker.Instance?.ResetMultiplier();
+        GotHit();
         if (health <= 0) TriggerDeath();
     }
 

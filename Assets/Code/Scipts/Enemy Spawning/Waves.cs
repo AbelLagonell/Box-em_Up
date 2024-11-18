@@ -37,10 +37,10 @@ public class Waves : MonoBehaviour {
         GameStatTracker.Instance.OnWaveChange += OnWaveChange;
 
         var spawnersGO = GameObject.FindGameObjectsWithTag("Respawn");
-        spawners = new Transform[spawnersGO.Length];
+        spawners      = new Transform[spawnersGO.Length];
         spawnerScript = new Spawner[spawnersGO.Length];
         for (var i = 0; i < spawnersGO.Length; i++) {
-            spawners[i] = spawnersGO[i].GetComponent<Transform>();
+            spawners[i]      = spawnersGO[i].GetComponent<Transform>();
             spawnerScript[i] = spawnersGO[i].GetComponent<Spawner>();
         }
 
@@ -79,14 +79,14 @@ public class Waves : MonoBehaviour {
     private IEnumerator SpawnEnemy(float time, GameObject enemy, int wave) {
         yield return new WaitForSeconds(time);
         var spawnerActive = GetActiveSpawners();
-        var rand = Random.Range(0, spawnerActive.Count);
+        var rand          = Random.Range(0, spawnerActive.Count);
 
         var enemyScript = Instantiate(enemy, spawnerActive[rand].position, Quaternion.identity).GetComponent<Actor>();
-        enemyScript.attack = wave / increasePerWave.attack;
-        enemyScript.defense = wave / increasePerWave.defense;
-        enemyScript.health = wave / increasePerWave.health;
+        enemyScript.attack      = wave / increasePerWave.attack;
+        enemyScript.defense     = wave / increasePerWave.defense;
+        enemyScript.health      = wave / increasePerWave.health;
         enemyScript.attackSpeed = 1 + (float)wave / enemyPerWaveCount.Length / increasePerWave.attackSpeed;
-        enemyScript.speed = 1 + (float)wave / increasePerWave.speed;
+        enemyScript.speed       = 1 + (float)wave / increasePerWave.speed;
     }
 
     private IEnumerator SpawnShopKeeper(float time) {
