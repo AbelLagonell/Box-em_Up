@@ -17,6 +17,7 @@ public class ProjectileSpawner : Ability {
                                Quaternion.Euler(-90, 0, 0));
 
         proj.GetComponent<Projectile>().Init(transform.forward * extraAbility);
+        proj.transform.GetChild(0).GetComponent<Hitbox>().damage = Damage;
     }
 
     public override void InInventory() {

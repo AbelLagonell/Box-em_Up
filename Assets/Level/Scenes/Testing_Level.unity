@@ -804,6 +804,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9036278708183933578}
   m_CullTransparentMesh: 1
+--- !u!1001 &2251466503624817298
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1773881009279890648, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_Name
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5629993169853990985, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b22183d1d28f3a12db0de54dea9f6a50, type: 3}
 --- !u!114 &3202964405873236722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,7 +924,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.95
+  m_fontSize: 45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -958,7 +1015,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.45
+  m_fontSize: 31.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1072,6 +1129,8 @@ MonoBehaviour:
   health: 10
   score: 0
   hurtboxType: 1
+  hitbox: {fileID: 5550041878672650297, guid: 1b644fbc517c5df4e90aa7ff281ae1c3, type: 3}
+  sizeHitbox: {x: 3.5, y: 2, z: 3.5}
   animations:
   - {fileID: 7400000, guid: 3f027ef748ca6b8419321dbaaf5b86dc, type: 2}
   - {fileID: 7400000, guid: c23c3734d0e083c489c432d6ee1b4d8f, type: 2}
@@ -1081,8 +1140,8 @@ MonoBehaviour:
   attackSpeed: 0.5
   defense: 0
   attack: 1
-  hitbox: {fileID: 5550041878672650297, guid: 1b644fbc517c5df4e90aa7ff281ae1c3, type: 3}
-  sizeHitbox: {x: 3.5, y: 2, z: 3.5}
+  inventoryPrefab: {fileID: 8460852080002335079, guid: 7b76b3fcb5fa7651eb1982e46a1914b3, type: 3}
+  itemPrefab: {fileID: 16272158697687821, guid: 059b2af942992cfc5b3e82afb9e2bc27, type: 3}
   ability: {fileID: 0}
 --- !u!114 &4641167947053299733
 MonoBehaviour:
@@ -1859,6 +1918,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 67b6d001-aa6a-4948-a07f-06929eae69ab
     m_ActionName: Player/Ability[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4221493940846499965}
+        m_TargetAssemblyTypeName: MainCharacter, Assembly-CSharp
+        m_MethodName: OnInventoryActivated
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 77cd6a09-2170-4590-ab42-4d15bd2d72f1
+    m_ActionName: Player/Inventory[/Keyboard/tab]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1914,3 +1989,4 @@ SceneRoots:
   - {fileID: 4002658427555831028}
   - {fileID: 5384290056859414956}
   - {fileID: 6522555167065452573}
+  - {fileID: 2251466503624817298}

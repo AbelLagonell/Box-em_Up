@@ -15,7 +15,7 @@ public class AbilityPickup : GameItem {
         UpdateTexture((int)ability);
     }
 
-    public override void Apply() {
-        MainCharacter.Instance.GetAbility(abilitySpawner[(int)ability]);
+    public void Apply(int abilityIndex) {
+        MainCharacter.Instance.GetAbility(abilitySpawner[abilityIndex]);
     }
 }

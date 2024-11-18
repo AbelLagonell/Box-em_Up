@@ -15,14 +15,15 @@ public class Actor : Entity {
     protected static readonly int Dd = Animator.StringToHash("Dead");          //Trigger
     protected static readonly int AtSp = Animator.StringToHash("AttackSpeed"); //Float
 
-    [SerializeField] protected AnimationClip[] animations;
+    [SerializeField] protected GameObject hitbox;
+    [SerializeField] protected Vector3 sizeHitbox = Vector3.one;
 
-    public float speed = 1;
+    [Header("")] [SerializeField] protected AnimationClip[] animations;
+
+    [Header("Stats")] public float speed = 1;
     public float attackSpeed = 1;
     public int defense, attack = 1;
 
-    [SerializeField] protected GameObject hitbox;
-    [SerializeField] protected Vector3 sizeHitbox = Vector3.one;
 
     private UnityEvent _onDeath;
     protected Animator AnimatorController;
@@ -31,7 +32,7 @@ public class Actor : Entity {
 
     protected new void Start() {
         base.Start();
-        Rb = GetComponent<Rigidbody>();
+        Rb                 = GetComponent<Rigidbody>();
         AnimatorController = GetComponent<Animator>();
     }
 
@@ -74,7 +75,7 @@ public class Actor : Entity {
                                     transform.rotation, transform);
         newHitBox.transform.localScale = sizeHitbox;
         var script = newHitBox.GetComponent<Hitbox>();
-        script.damage = attack;
+        script.damage  = attack;
         script.timeSec = duration;
         script.Death();
     }

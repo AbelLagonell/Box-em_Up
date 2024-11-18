@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour {
     //score is the amount of score this has
-    [SerializeField] public int health = 1, score = 1;
+    [Header("Entity Information")] public int health = 1;
+    public int score = 1;
 
     //-1=> None, 0 => Player, 1 => Enemy, 2 => Both 
-    [SerializeField] private int hurtboxType = 2;
+    [Header("Hitbox/HurtBox")] [SerializeField]
+    private int hurtboxType = 2;
+
     private readonly Dictionary<string, bool> _hitboxConditions = new();
 
     protected void Start() {

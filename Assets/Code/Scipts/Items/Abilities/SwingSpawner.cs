@@ -18,6 +18,7 @@ public class SwingSpawner : Ability {
                                  transform.position + transform.up * 1.5f,
                                  transform.rotation);
         cSwing.GetComponent<Swing>().NewAngle(extraAbility, radius, transform.rotation);
+        cSwing.transform.GetChild(0).GetComponent<Hitbox>().damage = Damage;
     }
 
     public override void InInventory() {
