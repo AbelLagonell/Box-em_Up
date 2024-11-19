@@ -8,7 +8,7 @@
 - [x] On Death Animation
 
 # UI:
-- [ ] Inventory Screen
+- [x] Inventory Screen
 - [x] Other Font: Humaroid Font
     - [x] Title: Bad Mofo Font
 - [x] Score Font: Control Freak Font
@@ -27,8 +27,8 @@
 
 # Enemies & Boss:
 - [x] Normal Enemy
-	- [ ] Enemy Fighting animations
-	- [ ] On Hit animations
+	- [x] Enemy Fighting animations
+	- [x] On Hit animations
 - [x] On Death Animation
 - [ ] Special Attack 1 (Boss)
 - [ ] Special Attack 2 (Boss)

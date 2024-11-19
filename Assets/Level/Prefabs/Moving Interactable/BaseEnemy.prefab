@@ -68,6 +68,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a53d052f67179745953a100fbc45568, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6163221880544210079}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a53d052f67179745953a100fbc45568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2072801810356624213}
   m_SourcePrefab: {fileID: 100100000, guid: 5a53d052f67179745953a100fbc45568, type: 3}
 --- !u!1 &2474963117297433464 stripped
 GameObject:
@@ -90,16 +93,17 @@ MonoBehaviour:
   score: 1
   hurtboxType: 1
   hitbox: {fileID: 8005724649845269895, guid: d33793fe8e1ffa68087cf7dfd1cbf487, type: 3}
-  sizeHitbox: {x: 1, y: 1, z: 1}
+  sizeHitbox: {x: 2.5, y: 2, z: 3}
   animations:
   - {fileID: 7400000, guid: 3f027ef748ca6b8419321dbaaf5b86dc, type: 2}
   - {fileID: 7400000, guid: c23c3734d0e083c489c432d6ee1b4d8f, type: 2}
   - {fileID: 7400000, guid: cd4f748771dcd264ca517748adb78b11, type: 2}
   - {fileID: 7400000, guid: ccec40d2b70c2534a91ded800884eaa6, type: 2}
   speed: 2
-  attackSpeed: 1
+  attackSpeed: 0.5
   defense: 0
   attack: 1
+  detectionRadius: 3.5
 --- !u!95 &1803421522057973732
 Animator:
   serializedVersion: 5
@@ -169,3 +173,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5, y: 3, z: 2.2}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!195 &-2072801810356624213
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474963117297433464}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 3

@@ -1,38 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MainCharacter : Actor {
     private static readonly int Bl = Animator.StringToHash("IsBlocking");     //Bool
     private static readonly int Ab = Animator.StringToHash("IsUsingAbility"); //Bool
-
-    private readonly List<Tuple<UpgradeStats, int>> _upgrades = new();
-    private Ability _abilityScript;
-
-    private int _maxHealth = 10;
-    private Vector2 _moveInput;
-
-    [Header("Inventory")] private GameObject _inventory;
-    private Transform _panel;
-    private readonly List<GameObject> _items = new();
-    [SerializeField] private GameObject inventoryPrefab;
+    [Header("Inventory")] [SerializeField] private GameObject inventoryPrefab;
     [SerializeField] private GameObject itemPrefab;
 
     [Header("Debug")] [SerializeField] private GameObject ability;
+    private readonly List<GameObject> _items = new();
+
+    private readonly List<Tuple<UpgradeStats, int>> _upgrades = new();
+    private Ability _abilityScript;
+    private ChangeScene _changeScene;
+
+    private GameObject _inventory;
+
+    private int _maxHealth = 10;
+    private Vector2 _moveInput;
+    private Transform _panel;
 
     public static MainCharacter Instance { get; private set; }
 
     protected new void Start() {
+        _changeScene = GetComponent<ChangeScene>();
         base.Start();
         if (Instance != null && Instance != this) Destroy(gameObject);
         Instance = this;
         DontDestroyOnLoad(gameObject);
         _inventory = Instantiate(inventoryPrefab, transform);
-        _panel     = _inventory.transform.Find("Panel");
+        _panel = _inventory.transform.Find("Panel");
         _inventory.SetActive(false);
     }
 
@@ -79,17 +79,20 @@ public class MainCharacter : Actor {
     }
 
     protected override void DecreaseHealth(int amount) {
-        if (!CurrentState[(int)StateOrder.Blocking]) return;
+        if (CurrentState[(int)StateOrder.Blocking]) return;
         health -= amount - defense;
+        if (health <= 0 && !AnimatorController.GetBool(Dd)) TriggerDeath();
         GameStatTracker.Instance?.HealthUpdate(health);
         GameStatTracker.Instance?.ResetMultiplier();
         GotHit();
-        if (health <= 0) TriggerDeath();
     }
 
     protected override void TriggerDeath() {
-        //When the Player dies
+        //When the Player dies 
+        //TODO Animation does not play the entire time
+        OnDeath?.Invoke();
         AnimatorController.SetBool(Dd, true);
+        _changeScene.SceneChange();
     }
 
     protected override void Movement() {
@@ -98,7 +101,7 @@ public class MainCharacter : Actor {
 
         //IF another action is currently happening don't move
         if (CurrentState.Contains(true)) {
-            _moveInput  = Vector2.zero;
+            _moveInput = Vector2.zero;
             Rb.velocity = Vector3.zero;
         }
 
@@ -143,9 +146,9 @@ public class MainCharacter : Actor {
         // Add the same type of Ability component to this object
         _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
         Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
-        _abilityScript.ability          = sourceAbility.ability;
+        _abilityScript.ability = sourceAbility.ability;
         _abilityScript.maxRechargeSpeed = sourceAbility.maxRechargeSpeed;
-        _abilityScript.extraAbility     = sourceAbility.extraAbility;
+        _abilityScript.extraAbility = sourceAbility.extraAbility;
 
         // Remove all upgrade related Stats
         for (var i = 5; i < 8; i++) {
@@ -171,7 +174,7 @@ public class MainCharacter : Actor {
         switch (upgrade.Stat) {
             case UpgradeType.Health:
                 _maxHealth += (int)upgrade.StatUp;
-                health     += _maxHealth;
+                health += _maxHealth;
                 GameStatTracker.Instance?.HealthUpdate(_maxHealth);
                 break;
             case UpgradeType.Defense:
@@ -199,4 +202,11 @@ public class MainCharacter : Actor {
                 throw new ArgumentOutOfRangeException();
         }
     }
+
+    public List<Tuple<UpgradeStats, int>> GetUpgradeList() {
+        gameObject.SetActive(false);
+        return _upgrades;
+    }
+
+    public event Action OnDeath;
 }
