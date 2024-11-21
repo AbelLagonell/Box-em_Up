@@ -398,6 +398,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7171459613161770477}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7030039037272359746}
   m_SourcePrefab: {fileID: 100100000, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
 --- !u!1 &1127732738390845339 stripped
 GameObject:
@@ -600,6 +603,21 @@ MonoBehaviour:
   health: 10
   score: 0
   hurtboxType: 0
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7030039037272359746}
+        m_TargetAssemblyTypeName: LoadMultAudio, Assembly-CSharp
+        m_MethodName: PlayAsync
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitbox: {fileID: 5550041878672650297, guid: 1b644fbc517c5df4e90aa7ff281ae1c3, type: 3}
   sizeHitbox: {x: 3.5, y: 2, z: 3.5}
   animations:
@@ -616,6 +634,36 @@ MonoBehaviour:
   betweenAttackTime: 5
   inventoryPrefab: {fileID: 8460852080002335079, guid: 7b76b3fcb5fa7651eb1982e46a1914b3, type: 3}
   itemPrefab: {fileID: 16272158697687821, guid: 059b2af942992cfc5b3e82afb9e2bc27, type: 3}
+  OnLowHealth:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7030039037272359746}
+        m_TargetAssemblyTypeName: LoadMultAudio, Assembly-CSharp
+        m_MethodName: PlayFadeOut
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnAbilityUse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7030039037272359746}
+        m_TargetAssemblyTypeName: LoadMultAudio, Assembly-CSharp
+        m_MethodName: PlayAsync
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   ability: {fileID: 0}
 --- !u!95 &1694753882850384106
 Animator:
@@ -672,3 +720,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneIndex: 4
+--- !u!114 &7030039037272359746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127732738390845339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 287037dd27a16ee4ba9819939af6f50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 1
+  shouldFadeIn: 0
+  loop: 0
+  changeVolume: 0
+  volumeOverride: 0
+  onStart: 0
+  condition: 0
+  audioClipsVector:
+  - audioClips:
+    - {fileID: 8300000, guid: ce81446bea92b3344a7ce5e2d3cab943, type: 3}
+    - {fileID: 8300000, guid: 446c911a06c0e014288d95ee229f4f87, type: 3}
+    - {fileID: 8300000, guid: a5e31ab753604514abd3b2cc50bd0fe2, type: 3}
+  - audioClips:
+    - {fileID: 8300000, guid: 68271b74f1339074d869aeb865649561, type: 3}
+    - {fileID: 8300000, guid: 72ddf22b30a63524a91d907399bc428d, type: 3}
+    - {fileID: 8300000, guid: 0a033330006f095438c781e38e5220af, type: 3}
+    - {fileID: 8300000, guid: a9064da43acfd01468af3819bd696443, type: 3}
+    - {fileID: 8300000, guid: edcaef66608f0ac40a1b47ed574d748f, type: 3}
+  - audioClips:
+    - {fileID: 8300000, guid: 81b0c2a439155574791610aa0283bd69, type: 3}

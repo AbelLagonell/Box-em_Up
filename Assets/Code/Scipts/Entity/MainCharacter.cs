@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class MainCharacter : Actor {
@@ -10,22 +11,25 @@ public class MainCharacter : Actor {
     [Header("Inventory")] [SerializeField] private GameObject inventoryPrefab;
     [SerializeField] private GameObject itemPrefab;
 
+    [Header("Unity SFX")] [SerializeField] private UnityEvent OnLowHealth;
+    [SerializeField] private UnityEvent OnAbilityUse;
+
     [Header("Debug")] [SerializeField] private GameObject ability;
     private readonly List<GameObject> _items = new();
 
     private readonly List<Tuple<UpgradeStats, int>> _upgrades = new();
     private Ability _abilityScript;
     private ChangeScene _changeScene;
-
     private GameObject _inventory;
-
     private int _maxHealth = 10;
     private Vector2 _moveInput;
     private Transform _panel;
+    private bool _warn;
 
     public static MainCharacter Instance { get; private set; }
 
     protected new void Start() {
+        GameStatTracker.Instance.OnPlayerHealthChanged += OnHealthUpdate;
         _changeScene = GetComponent<ChangeScene>();
         base.Start();
         if (Instance != null && Instance != this) Destroy(gameObject);
@@ -42,6 +46,10 @@ public class MainCharacter : Actor {
         if (HasAbility() == -1) return;
         if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())
             _abilityScript.currentCharge -= Time.fixedDeltaTime;
+    }
+
+    private void OnDestroy() {
+        GameStatTracker.Instance.OnPlayerHealthChanged -= OnHealthUpdate;
     }
 
     public void OnInventoryActivated(InputAction.CallbackContext ia) {
@@ -72,6 +80,7 @@ public class MainCharacter : Actor {
         if (!ab.started || HasAbility() == -1) return; //checking whether he has the ability to use ability
         if (!_abilityScript.CanUseAbility()) return;   //checking if ability is ready
         _abilityScript.OnUse();
+        OnAbilityUse?.Invoke();
         SetAnimationBool(true, Ab, (int)StateOrder.Ability);
         SetAnimationBool(false, At, (int)StateOrder.Attack);
         StartCoroutine(ResetFlag(Ab, (int)StateOrder.Ability,
@@ -84,6 +93,11 @@ public class MainCharacter : Actor {
         if (health <= 0 && !AnimatorController.GetBool(Dd)) TriggerDeath();
         GameStatTracker.Instance?.HealthUpdate(health);
         GameStatTracker.Instance?.ResetMultiplier();
+        if (health <= _maxHealth * .25f && _warn) {
+            _warn = false;
+            OnLowHealth?.Invoke();
+        }
+
         GotHit();
     }
 
@@ -206,6 +220,10 @@ public class MainCharacter : Actor {
     public List<Tuple<UpgradeStats, int>> GetUpgradeList() {
         gameObject.SetActive(false);
         return _upgrades;
+    }
+
+    private void OnHealthUpdate(int input) {
+        if (input >= _maxHealth * .25f) _warn = true;
     }
 
     public event Action OnDeath;

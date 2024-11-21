@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 
@@ -19,6 +20,8 @@ public struct Multipliers {
     public int rechargeRate;
     public int abilityDamage;
     public int abilityExtra;
+    public int projectile;
+    public int swing;
 }
 
 public struct PickupType {
@@ -35,6 +38,7 @@ public class Shopkeep : MonoBehaviour {
     private static int _hasAbility;
     [SerializeField] private GameObject[] pickups;
     public Multipliers multipliers;
+    public UnityEvent OnPickup;
     private readonly HashSet<int> _currentShopPickups = new();
     private readonly List<PickupType> _displayPickups = new();
     private Transform[] _group;
@@ -66,7 +70,6 @@ public class Shopkeep : MonoBehaviour {
         }
 
         // Setting up the upgrade pickups
-        //?Need to change if both can work
         for (var i = 0; i < transform.childCount - 1; i++) {
             var rand = GetRandomPickup();
             var (isAbility, index) = ConvertRandomToType(rand);
@@ -123,12 +126,12 @@ public class Shopkeep : MonoBehaviour {
 
     private int GetPrice(AbilityType abilityType) {
         var scalar = abilityType switch {
-            AbilityType.Projectile => 10,
-            AbilityType.Swing      => 10,
+            AbilityType.Projectile => multipliers.projectile,
+            AbilityType.Swing      => multipliers.swing,
             _                      => throw new ArgumentOutOfRangeException(nameof(abilityType), abilityType, null)
         };
 
-        return Mathf.RoundToInt(_waveCount * scalar * .5f);
+        return Mathf.RoundToInt(_waveCount * scalar);
     }
 
     private void BuyingItem(int childIndex) {
@@ -144,6 +147,8 @@ public class Shopkeep : MonoBehaviour {
             GameStatTracker.Instance.DecrementScore(price);
             GetComponentInChildren<Upgrade>().Apply();
         }
+
+        OnPickup.Invoke();
 
         Destroy(transform.GetChild(childIndex).GetComponentInChildren<ButtonScript>().gameObject);
         Destroy(transform.GetChild(childIndex).GetComponentInChildren<Canvas>().gameObject);

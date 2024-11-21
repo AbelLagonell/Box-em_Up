@@ -28,6 +28,7 @@ public class Waves : MonoBehaviour {
     [Header("Debug")] [SerializeField] private Transform[] spawners;
     [SerializeField] private Spawner[] spawnerScript;
     [SerializeField] private int enemyCount;
+
     public static Waves Instance { get; private set; }
 
     private void Start() {
@@ -102,6 +103,9 @@ public class Waves : MonoBehaviour {
 
     private IEnumerator SpawnShopKeeper(float time) {
         yield return new WaitForSeconds(time);
+        //Gets the audio and does the crossfade
+        var audioSwitcher = GameObject.FindGameObjectWithTag("AudioSwitcher");
+        audioSwitcher.GetComponent<SwitchAudio>().SwitchAudioClips();
         Instantiate(shopKeeper, shopKeeperSpawn.position, Quaternion.identity);
         MainCharacter.Instance.health += MainCharacter.Instance.health / 2;
         GameStatTracker.Instance?.HealthUpdate(MainCharacter.Instance.health);

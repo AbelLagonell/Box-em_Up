@@ -8,6 +8,7 @@ TagManager:
   - HitboxEnemy
   - Replace
   - Text
+  - AudioSwitcher
   layers:
   - Default
   - TransparentFX

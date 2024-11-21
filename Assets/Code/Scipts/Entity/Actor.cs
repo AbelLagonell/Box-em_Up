@@ -96,6 +96,7 @@ public class Actor : Entity {
 
     protected void GotHit() {
         if (AnimatorController.GetBool(Dd)) return;
+        OnHit.Invoke();
         SetAnimationBool(true, Ht, (int)StateOrder.Hit);
         StartCoroutine(ResetFlag(Ht, (int)StateOrder.Hit, animations[(int)StateOrder.Hit].length));
     }

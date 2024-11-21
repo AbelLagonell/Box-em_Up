@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Entity : MonoBehaviour {
     //score is the amount of score this has
@@ -7,6 +8,8 @@ public class Entity : MonoBehaviour {
 
     [Header("Hitbox/HurtBox")] [SerializeField]
     private EntityType hurtboxType;
+
+    [SerializeField] protected UnityEvent OnHit;
 
     protected void Start() {
         if (health < 0) health = 10;
@@ -23,6 +26,7 @@ public class Entity : MonoBehaviour {
     protected virtual void DecreaseHealth(int amount) {
         if (amount < 0) return;
         health -= amount;
+        OnHit.Invoke();
         if (health <= 0) TriggerDeath();
     }
 

@@ -71,6 +71,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a53d052f67179745953a100fbc45568, type: 3}
       insertIndex: -1
       addedObject: {fileID: -2072801810356624213}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5a53d052f67179745953a100fbc45568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8528842205705947031}
   m_SourcePrefab: {fileID: 100100000, guid: 5a53d052f67179745953a100fbc45568, type: 3}
 --- !u!1 &2474963117297433464 stripped
 GameObject:
@@ -92,6 +95,21 @@ MonoBehaviour:
   health: 1
   score: 1
   hurtboxType: 1
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -8528842205705947031}
+        m_TargetAssemblyTypeName: LoadAsyncAudio, Assembly-CSharp
+        m_MethodName: PlayAsync
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hitbox: {fileID: 8005724649845269895, guid: d33793fe8e1ffa68087cf7dfd1cbf487, type: 3}
   sizeHitbox: {x: 2.5, y: 2, z: 3}
   animations:
@@ -104,6 +122,8 @@ MonoBehaviour:
   defense: 0
   attack: 1
   detectionRadius: 3.5
+  cTime: 0
+  betweenAttackTime: 5
 --- !u!95 &1803421522057973732
 Animator:
   serializedVersion: 5
@@ -195,3 +215,25 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 3
+--- !u!114 &-8528842205705947031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474963117297433464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a1373a18a51fa4a9c166f1e55a8caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundType: 0
+  shouldFadeIn: 0
+  loop: 0
+  changeVolume: 0
+  volumeOverride: 0
+  onStart: 0
+  audioClips:
+  - {fileID: 8300000, guid: 3258187302bc1d8429d3445d51d3e8b7, type: 3}
+  - {fileID: 8300000, guid: cd924ae8cb9e63a41af331cb57d5b9b0, type: 3}
+  - {fileID: 8300000, guid: 51d71c0a1a02ca8429f1a8d43cca76e9, type: 3}
