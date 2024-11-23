@@ -129,7 +129,8 @@ public class MainCharacter : Actor {
 
         //Moving
         Rb.velocity = Vector3.Lerp(new Vector3(Rb.velocity.x, 0, Rb.velocity.z),
-                                   new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f);
+                                   new Vector3(_moveInput.x, 0, _moveInput.y) * speed, 0.7f) +
+                      new Vector3(0, Rb.velocity.y, 0);
     } // ReSharper disable Unity.PerformanceAnalysis
 
     public int HasAbility() {

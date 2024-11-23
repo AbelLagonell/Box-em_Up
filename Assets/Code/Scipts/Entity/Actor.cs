@@ -30,11 +30,12 @@ public class Actor : Entity {
     [Header("Enemy Specific")] [SerializeField]
     private float detectionRadius;
 
-    [SerializeField] private float cTime;
     [SerializeField] private float betweenAttackTime = 5f;
 
     private NavMeshAgent _agent;
     private bool _close;
+
+    private float _cTime;
 
 
     private UnityEvent _onDeath;
@@ -50,17 +51,17 @@ public class Actor : Entity {
         base.Start();
         Rb = GetComponent<Rigidbody>();
         AnimatorController = GetComponent<Animator>();
-        cTime = 1 / attackSpeed * betweenAttackTime;
+        _cTime = 1 / attackSpeed * betweenAttackTime;
     }
 
     private void FixedUpdate() {
-        cTime -= Time.fixedDeltaTime;
+        _cTime -= Time.fixedDeltaTime;
         Debug.DrawCircle(transform.position, detectionRadius, 32, Color.red);
         if (Vector3.Distance(transform.position, MainCharacter.Instance.transform.position) <=
             detectionRadius) {
             _agent.speed = 0;
-            if (cTime <= 0) {
-                cTime = betweenAttackTime * 1 / attackSpeed;
+            if (_cTime <= 0) {
+                _cTime = betweenAttackTime * 1 / attackSpeed;
                 Attack();
             }
         }

@@ -9,8 +9,13 @@ public class StatDisplay : MonoBehaviour {
     [SerializeField] private Slider healthObject;
 
     private float maxHealth;
+    public static StatDisplay Instance { get; private set; }
 
     private void Start() {
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         // Subscribe to the events
         GameStatTracker.Instance.OnWaveChange += OnWaveChanged;
         GameStatTracker.Instance.OnScoreChanged += OnScoreChanged;

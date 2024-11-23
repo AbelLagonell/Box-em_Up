@@ -22,6 +22,7 @@ public class Waves : MonoBehaviour {
     [SerializeField] private float withinBurstTime;
     [SerializeField] private float betweenBurstTime;
     [SerializeField] private int[] enemyPerWaveCount;
+    [SerializeField] private int[] enemyBurstCount;
     [SerializeField] private IncreasePerWave increasePerWave;
     public int waveAmountSceneChange = 3;
 
@@ -69,7 +70,17 @@ public class Waves : MonoBehaviour {
                                        enemyPerWaveCount.Length);
         }
 
-        for (var i = 0; i < enemyCount; i++) StartCoroutine(SpawnEnemy(betweenBurstTime, enemies[0], wave));
+        //for (var i = 0; i < enemyCount / enemyBurstCount[wave - 1]; i++) 
+        var cEnemyBurst = enemyBurstCount[wave - 1];
+        var cEnemiesRemaining = enemyPerWaveCount[wave - 1];
+        do {
+            var cEnemiesSpawn = 0;
+            if (cEnemiesRemaining - cEnemyBurst <= 0) cEnemiesSpawn = cEnemiesRemaining;
+            else cEnemiesSpawn = cEnemiesRemaining - cEnemyBurst;
+            StartCoroutine(SpawnEnemies(enemies[Random.Range(0, enemies.Length)], wave,
+                                        cEnemiesSpawn));
+            cEnemiesRemaining -= cEnemiesSpawn;
+        } while (cEnemiesRemaining > 0);
     }
 
     private void OnSceneChange() {
@@ -87,6 +98,11 @@ public class Waves : MonoBehaviour {
         if (enemyCount <= 0) StartCoroutine(SpawnShopKeeper(0.5f));
     }
 
+    private IEnumerator SpawnEnemies(GameObject enemy, int wave, int amount) {
+        yield return new WaitForSeconds(betweenBurstTime);
+        for (var i = 0; i < amount; i++) StartCoroutine(SpawnEnemy(withinBurstTime, enemy, wave));
+    }
+
     private IEnumerator SpawnEnemy(float time, GameObject enemy, int wave) {
         yield return new WaitForSeconds(time);
         var spawnerActive = GetActiveSpawners();
@@ -95,7 +111,7 @@ public class Waves : MonoBehaviour {
         var enemyScript = Instantiate(enemy, spawnerActive[rand].position, Quaternion.identity).GetComponent<Actor>();
         enemyScript.attack += wave / increasePerWave.attack;
         enemyScript.defense += wave / increasePerWave.defense;
-        enemyScript.health += wave / increasePerWave.health;
+        enemyScript.health = wave / increasePerWave.health;
         //TODO Fix these two incrementation
         enemyScript.attackSpeed = 1 + (float)wave / increasePerWave.attackSpeed;
         enemyScript.speed = 1 + (float)wave / increasePerWave.speed;
