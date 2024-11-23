@@ -505,6 +505,7 @@ MonoBehaviour:
     defense: 5
     speed: 7
     health: 1
+  waveAmountSceneChange: 3
   spawners: []
   spawnerScript: []
   enemyCount: 0
@@ -534,6 +535,14 @@ PrefabInstance:
     - target: {fileID: 829371776778451812, guid: f95ccb60be996d0baab45d41eb0562c6, type: 3}
       propertyPath: m_Name
       value: Floor1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464820030139504881, guid: f95ccb60be996d0baab45d41eb0562c6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464820030139504881, guid: f95ccb60be996d0baab45d41eb0562c6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7464820030139504881, guid: f95ccb60be996d0baab45d41eb0562c6, type: 3}
       propertyPath: m_LocalPosition.x

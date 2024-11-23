@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.48
+      value: 0.0029711723
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.67
+      value: -0.37525463
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       propertyPath: m_LocalRotation.w
@@ -391,6 +391,9 @@ PrefabInstance:
       addedObject: {fileID: 3867587682803473896}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 4944356806521991069}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1694753882850384106}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d62840d03b4286b4ba6236db17c0d643, type: 3}
       insertIndex: -1
@@ -665,6 +668,19 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   ability: {fileID: 0}
+--- !u!114 &4944356806521991069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127732738390845339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae61f0c432adfcf438b8752a59b5d8a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneIndex: 4
 --- !u!95 &1694753882850384106
 Animator:
   serializedVersion: 5
