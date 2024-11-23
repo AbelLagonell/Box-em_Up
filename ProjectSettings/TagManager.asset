@@ -6,6 +6,9 @@ TagManager:
   tags:
   - HitboxPlayer
   - HitboxEnemy
+  - Replace
+  - Text
+  - AudioSwitcher
   layers:
   - Default
   - TransparentFX

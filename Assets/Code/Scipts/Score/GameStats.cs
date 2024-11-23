@@ -1,7 +1,10 @@
+using System;
+
+[Serializable]
 public class GameStats {
-    public int currentMultiplier;
-    public float playerHealth;
-    public float playTime;
+    public float cPlayerHealth = 10;
+    public int currentMultiplier = 1;
+    public float maxPlayerHealth = 10;
     public int totalScore;
-    public int waveCount;
+    public int waveCount = 1;
 }

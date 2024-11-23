@@ -1,46 +1,37 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Entity : MonoBehaviour {
     //score is the amount of score this has
-    [SerializeField] public int health = 1, score = 1;
+    [Header("Entity Information")] public int health = 1;
+    public int score = 1;
 
-    //-1=> None, 0 => Player, 1 => Enemy, 2 => Both 
-    [SerializeField] private int hurtboxType = 2;
-    private readonly Dictionary<string, bool> _hitboxConditions = new();
+    [Header("Hitbox/HurtBox")] [SerializeField]
+    private EntityType hurtboxType;
 
-    private void Start() {
-        InitHitboxDict();
+    [SerializeField] protected UnityEvent OnHit;
+
+    protected void Start() {
         if (health < 0) health = 10;
     }
 
     protected void OnTriggerEnter(Collider collision) {
-        if (CheckHitboxTag(collision.tag))
-            DecreaseHealth(collision.GetComponent<Hitbox>().damage);
-    }
+        var hitbox = collision.GetComponent<Hitbox>();
+        if (hitbox == null) return;
 
-    protected void IncreaseHealth(int amount) {
-        health += amount;
+        //We know its a hitbox that is attack this entity;
+        if (hitbox.hitboxType != hurtboxType) DecreaseHealth(hitbox.damage);
     }
 
     protected virtual void DecreaseHealth(int amount) {
         if (amount < 0) return;
         health -= amount;
+        OnHit.Invoke();
         if (health <= 0) TriggerDeath();
     }
 
     protected virtual void TriggerDeath() {
         GameStatTracker.Instance?.AddScore(score);
         Destroy(gameObject);
-    }
-
-    private bool CheckHitboxTag(string componentTag) {
-        return _hitboxConditions.Any(kvp => kvp.Key == componentTag);
-    }
-
-    private void InitHitboxDict() {
-        _hitboxConditions.Add("HitboxPlayer", hurtboxType is 0 or 2);
-        _hitboxConditions.Add("HitboxEnemy", hurtboxType is 1 or 2);
     }
 }
