@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -33,9 +34,8 @@ public class Actor : Entity {
     [SerializeField] private float betweenAttackTime = 5f;
 
     private NavMeshAgent _agent;
-    private bool _close;
 
-    private float _cTime;
+    [SerializeField] private float _cTime;
 
 
     private UnityEvent _onDeath;
@@ -49,9 +49,9 @@ public class Actor : Entity {
 
     protected new void Start() {
         base.Start();
-        Rb = GetComponent<Rigidbody>();
+        Rb                 = GetComponent<Rigidbody>();
         AnimatorController = GetComponent<Animator>();
-        _cTime = 1 / attackSpeed * betweenAttackTime;
+        _cTime             = 1 / attackSpeed * betweenAttackTime;
     }
 
     private void FixedUpdate() {
@@ -60,13 +60,12 @@ public class Actor : Entity {
         if (Vector3.Distance(transform.position, MainCharacter.Instance.transform.position) <=
             detectionRadius) {
             _agent.speed = 0;
-            if (_cTime <= 0) {
-                _cTime = betweenAttackTime * 1 / attackSpeed;
-                Attack();
-            }
+            if (!(_cTime <= 0)) return;
+            _cTime = betweenAttackTime * 1 / attackSpeed;
+            Attack();
+        } else {
+            Movement();
         }
-
-        Movement();
     }
 
     protected override void DecreaseHealth(int amount) {
@@ -79,7 +78,6 @@ public class Actor : Entity {
     protected virtual void Movement() {
         //Move towards the player crudely and then switch to navmesh would be better
         //Animation for movement
-        _agent.speed = 0;
         AnimatorController.SetBool(Mv, false);
         if (!CurrentState.Contains(true)) {
             AnimatorController.SetBool(Mv, true);
@@ -90,12 +88,18 @@ public class Actor : Entity {
         UnityEngine.Debug.DrawLine(transform.position, MainCharacter.Instance.transform.position, Color.red);
     }
 
-    protected override void TriggerDeath() {
+    private void OnDestroy() {
         Waves.Instance.EnemyDied();
+    }
+
+    protected override void TriggerDeath() {
         base.TriggerDeath();
+        GameStatTracker.Instance.AddScore(score);
+        GameStatTracker.Instance.IncrementMultiplier();
     }
 
     protected void GotHit() {
+        _cTime = 1 / attackSpeed * betweenAttackTime;
         if (AnimatorController.GetBool(Dd)) return;
         OnHit.Invoke();
         SetAnimationBool(true, Ht, (int)StateOrder.Hit);
@@ -121,7 +125,7 @@ public class Actor : Entity {
                                     transform.rotation, transform);
         newHitBox.transform.localScale = sizeHitbox;
         var script = newHitBox.GetComponent<Hitbox>();
-        script.damage = attack;
+        script.damage  = attack;
         script.timeSec = duration;
         script.Death();
     }

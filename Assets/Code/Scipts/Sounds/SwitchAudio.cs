@@ -10,7 +10,7 @@ public class SwitchAudio : BaseAudio {
     }
 
     public void SwitchAudioClips() {
-        SoundManager.Instance.CrossfadeSounds(_cClip ? primaryClip : secondaryClip, soundType, loop: loop);
+        SoundManager.Instance?.CrossfadeSounds(_cClip ? primaryClip : secondaryClip, soundType, loop: loop);
         _cClip = !_cClip;
     }
 }

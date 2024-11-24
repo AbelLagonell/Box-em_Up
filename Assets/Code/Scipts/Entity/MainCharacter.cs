@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -30,13 +31,13 @@ public class MainCharacter : Actor {
 
     protected new void Start() {
         GameStatTracker.Instance.OnPlayerHealthChanged += OnHealthUpdate;
-        _changeScene = GetComponent<ChangeScene>();
+        _changeScene                                   =  GetComponent<ChangeScene>();
         base.Start();
         if (Instance != null && Instance != this) Destroy(gameObject);
         Instance = this;
         DontDestroyOnLoad(gameObject);
         _inventory = Instantiate(inventoryPrefab, transform);
-        _panel = _inventory.transform.Find("Panel");
+        _panel     = _inventory.transform.Find("Panel");
         _inventory.SetActive(false);
     }
 
@@ -89,7 +90,7 @@ public class MainCharacter : Actor {
 
     protected override void DecreaseHealth(int amount) {
         if (CurrentState[(int)StateOrder.Blocking]) return;
-        health -= amount - defense;
+        health -= amount - defense >= 0 ? amount - defense : 0;
         if (health <= 0 && !AnimatorController.GetBool(Dd)) TriggerDeath();
         GameStatTracker.Instance?.HealthUpdate(health);
         GameStatTracker.Instance?.ResetMultiplier();
@@ -115,7 +116,7 @@ public class MainCharacter : Actor {
 
         //IF another action is currently happening don't move
         if (CurrentState.Contains(true)) {
-            _moveInput = Vector2.zero;
+            _moveInput  = Vector2.zero;
             Rb.velocity = Vector3.zero;
         }
 
@@ -161,9 +162,9 @@ public class MainCharacter : Actor {
         // Add the same type of Ability component to this object
         _abilityScript = gameObject.AddComponent(sourceAbility.GetType()) as Ability;
         Debug.Assert(_abilityScript != null, nameof(_abilityScript) + " != null");
-        _abilityScript.ability = sourceAbility.ability;
+        _abilityScript.ability          = sourceAbility.ability;
         _abilityScript.maxRechargeSpeed = sourceAbility.maxRechargeSpeed;
-        _abilityScript.extraAbility = sourceAbility.extraAbility;
+        _abilityScript.extraAbility     = sourceAbility.extraAbility;
 
         // Remove all upgrade related Stats
         for (var i = 5; i < 8; i++) {
@@ -189,7 +190,7 @@ public class MainCharacter : Actor {
         switch (upgrade.Stat) {
             case UpgradeType.Health:
                 _maxHealth += (int)upgrade.StatUp;
-                health += _maxHealth;
+                health     += _maxHealth;
                 GameStatTracker.Instance?.HealthUpdate(_maxHealth);
                 break;
             case UpgradeType.Defense:
@@ -225,6 +226,13 @@ public class MainCharacter : Actor {
 
     private void OnHealthUpdate(int input) {
         if (input >= _maxHealth * .25f) _warn = true;
+    }
+
+    public void AddHealth(int amount = -1) {
+        if (amount == -1) amount = _maxHealth / 2;
+        if (amount + health >= _maxHealth) health =  _maxHealth;
+        else health                               += amount;
+        GameStatTracker.Instance?.HealthUpdate(health);
     }
 
     public event Action OnDeath;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Debug : UnityEngine.Debug {
+public abstract class Debug : UnityEngine.Debug {
     public static void DrawCircle(Vector3 position, float radius, int segments, Color color) {
         // If either radius or number of segments are less or equal to 0, skip drawing
         if (radius <= 0.0f || segments <= 0) return;
@@ -16,7 +16,7 @@ public class Debug : UnityEngine.Debug {
 
         // lineStart and lineEnd variables are declared outside of the following for loop
         var lineStart = Vector3.zero;
-        var lineEnd = Vector3.zero;
+        var lineEnd   = Vector3.zero;
 
         for (var i = 0; i < segments; i++) {
             // Line start is defined as starting angle of the current segment (i)
@@ -29,14 +29,14 @@ public class Debug : UnityEngine.Debug {
 
             // Results are multiplied so they match the desired radius
             lineStart *= radius;
-            lineEnd *= radius;
+            lineEnd   *= radius;
 
             // Results are offset by the desired position/origin 
             lineStart += position;
-            lineEnd += position;
+            lineEnd   += position;
 
             lineStart.y = position.y;
-            lineEnd.y = position.y;
+            lineEnd.y   = position.y;
 
             // Points are connected using DrawLine method and using the passed color
             DrawLine(lineStart, lineEnd, color);

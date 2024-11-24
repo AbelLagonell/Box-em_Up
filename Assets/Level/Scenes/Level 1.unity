@@ -355,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4993290949692823560, guid: 976e5be27189d6d4dacad80086fa3e38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.359695
+      value: 3.87
       objectReference: {fileID: 0}
     - target: {fileID: 4993290949692823560, guid: 976e5be27189d6d4dacad80086fa3e38, type: 3}
       propertyPath: m_LocalPosition.z
@@ -919,6 +919,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1078934984}
+  - component: {fileID: 1078934985}
   m_Layer: 0
   m_Name: Level 1
   m_TagString: Untagged
@@ -935,7 +936,7 @@ Transform:
   m_GameObject: {fileID: 1078934983}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.7}
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -943,6 +944,25 @@ Transform:
   - {fileID: 1089471608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1078934985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078934983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1089471607
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,13 +3,14 @@ using System.Collections;
 using UnityEngine;
 
 public class GameStatTracker : MonoBehaviour {
-    private GameStats _curStats;
+    [SerializeField] private GameStats _curStats;
+
     public static GameStatTracker Instance { get; private set; }
 
     private void Awake() {
         if (Instance != null && Instance != this) Destroy(gameObject);
         _curStats = new GameStats();
-        Instance = this;
+        Instance  = this;
         DontDestroyOnLoad(gameObject);
     }
 

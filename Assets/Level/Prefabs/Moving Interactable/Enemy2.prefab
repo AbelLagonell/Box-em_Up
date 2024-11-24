@@ -121,8 +121,9 @@ MonoBehaviour:
   attackSpeed: 0.75
   defense: 0
   attack: 1
-  detectionRadius: 2
+  detectionRadius: 3
   betweenAttackTime: 4
+  _cTime: 0
 --- !u!95 &4957336445337330743
 Animator:
   serializedVersion: 5

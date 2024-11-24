@@ -31,7 +31,6 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void TriggerDeath() {
-        GameStatTracker.Instance?.AddScore(score);
         Destroy(gameObject);
     }
 }

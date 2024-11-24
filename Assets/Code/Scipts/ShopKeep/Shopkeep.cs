@@ -30,7 +30,7 @@ public struct PickupType {
 
     public PickupType(bool pickup, int index) {
         Pickup = pickup;
-        Index = index;
+        Index  = index;
     }
 }
 
@@ -54,10 +54,10 @@ public class Shopkeep : MonoBehaviour {
         Instance = this;
 
         GameStatTracker.Instance.OnWaveChange += DestroySelf;
-        _waveCount = GameStatTracker.Instance.GetWaveCount();
+        _waveCount                            =  GameStatTracker.Instance.GetWaveCount();
         //Checking if character has a ability
-        _hasAbility = MainCharacter.Instance.HasAbility();
-        _group = new Transform[transform.childCount - 1];
+        _hasAbility  = MainCharacter.Instance.HasAbility();
+        _group       = new Transform[transform.childCount - 1];
         _replacement = new Transform[transform.childCount - 1];
         for (var i = 0; i < transform.childCount - 1; i++) {
             //Populating the children with the different groups
@@ -88,7 +88,7 @@ public class Shopkeep : MonoBehaviour {
         var pos = replacement.transform.position;
         Destroy(replacement);
         var price = GetPrice(upgradeType);
-        var text = group.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        var text  = group.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         text.text = price.ToString();
 
         var upgrade = Instantiate(pickups[1], pos, Quaternion.identity, group);
@@ -100,7 +100,7 @@ public class Shopkeep : MonoBehaviour {
         var pos = replacement.transform.position;
         Destroy(replacement);
         var price = GetPrice(abilityType);
-        var text = group.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
+        var text  = group.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>();
         text.text = price.ToString();
 
         var abilityPickup = Instantiate(pickups[0], pos, Quaternion.identity, group);
@@ -142,6 +142,7 @@ public class Shopkeep : MonoBehaviour {
             GameStatTracker.Instance.DecrementScore(price);
             GetComponentInChildren<AbilityPickup>().Apply(pickup.Index);
         } else {
+            Debug.Log($"Index = {childIndex}");
             var price = GetPrice((UpgradeType)pickup.Index);
             if (price > GameStatTracker.Instance.GetScore()) return;
             GameStatTracker.Instance.DecrementScore(price);
@@ -194,7 +195,7 @@ public class Shopkeep : MonoBehaviour {
         }
 
         // Get random index
-        var randomIndex = Random.Range(0, possiblePickups.Count);
+        var randomIndex    = Random.Range(0, possiblePickups.Count);
         var selectedPickup = possiblePickups[randomIndex];
 
         // Add to current shop pickups
