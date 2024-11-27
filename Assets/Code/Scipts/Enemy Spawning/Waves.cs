@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -17,7 +19,6 @@ internal struct IncreasePerWave {
 public class Waves : MonoBehaviour {
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject shopKeeper;
-    [SerializeField] private Transform shopKeeperSpawn;
     [SerializeField] private float radius; // Radius of which enemies will not spawn
     [SerializeField] private float withinBurstTime;
     [SerializeField] private float betweenBurstTime;
@@ -29,6 +30,7 @@ public class Waves : MonoBehaviour {
     [Header("Debug")] [SerializeField] private Transform[] spawners;
     [SerializeField] private Spawner[] spawnerScript;
     [SerializeField] private int enemyCount;
+    [SerializeField] private Transform shopKeeperSpawn;
 
     public static Waves Instance { get; private set; }
 
@@ -41,6 +43,10 @@ public class Waves : MonoBehaviour {
         OnSceneChange();
         SetRadius();
         OnWaveChange(1);
+    }
+
+    private void FixedUpdate() {
+        if (SceneManager.GetActiveScene().buildIndex == 4) Destroy(gameObject);
     }
 
     private void OnDestroy() {
@@ -84,6 +90,7 @@ public class Waves : MonoBehaviour {
     }
 
     public void OnSceneChange() {
+        //Spawners
         var spawnersGO = GameObject.FindGameObjectsWithTag("Respawn");
         spawners      = new Transform[spawnersGO.Length];
         spawnerScript = new Spawner[spawnersGO.Length];
@@ -91,6 +98,8 @@ public class Waves : MonoBehaviour {
             spawners[i]      = spawnersGO[i].GetComponent<Transform>();
             spawnerScript[i] = spawnersGO[i].GetComponent<Spawner>();
         }
+
+        shopKeeperSpawn = GameObject.FindGameObjectWithTag("Shop").transform;
     }
 
     public void EnemyDied() {
@@ -106,14 +115,17 @@ public class Waves : MonoBehaviour {
     private IEnumerator SpawnEnemy(float time, GameObject enemy, int wave) {
         yield return new WaitForSeconds(time);
         var spawnerActive = GetActiveSpawners();
-        var rand          = Random.Range(0, spawnerActive.Count);
         try {
-            var transform1 = spawnerActive[rand];
+            //Test if its working
+            var transform1 = spawnerActive[0].transform;
         } catch (Exception e) {
             OnSceneChange();
+            spawnerActive = GetActiveSpawners();
         }
 
-        var enemyScript = Instantiate(enemy, spawnerActive[rand].position, Quaternion.identity).GetComponent<Actor>();
+        var rand        = Random.Range(0, spawnerActive.Count);
+        var spawner     = spawnerActive[rand].position;
+        var enemyScript = Instantiate(enemy, spawner, Quaternion.identity).GetComponent<Actor>();
         enemyScript.attack  += wave / increasePerWave.attack;
         enemyScript.defense += wave / increasePerWave.defense;
         enemyScript.health  =  wave / increasePerWave.health;

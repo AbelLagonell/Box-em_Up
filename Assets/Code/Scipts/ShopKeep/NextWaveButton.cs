@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class NextWaveButton : MonoBehaviour {
         textMeshProUGUI.text = "Next Level";
         var scene = GetComponent<ChangeScene>();
         var changeScene =
-            (SceneIndex)((int)scene.sceneIndex +
+            (SceneIndex)((int)SceneIndex.Level1 +
                          GameStatTracker.Instance.GetWaveCount() / Waves.Instance.waveAmountSceneChange);
         Waves.Instance.OnSceneChange();
         scene.sceneIndex = changeScene;

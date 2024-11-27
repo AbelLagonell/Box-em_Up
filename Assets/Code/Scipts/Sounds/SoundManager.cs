@@ -23,8 +23,9 @@ public class SoundManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-        } else
+        } else {
             Destroy(gameObject);
+        }
     }
 
     public AudioSource PlaySound(
@@ -50,9 +51,9 @@ public class SoundManager : MonoBehaviour {
 
         if (settings?.mixerGroup != null) audioSource.outputAudioMixerGroup = settings.mixerGroup;
 
-        audioSource.clip = clip;
+        audioSource.clip   = clip;
         audioSource.volume = shouldFadeIn ? 0f : volume;
-        audioSource.loop = loop;
+        audioSource.loop   = loop;
 
         // Setup looping if specified
         if (loop && loopEndTime > loopStartTime)
@@ -104,8 +105,8 @@ public class SoundManager : MonoBehaviour {
 
         if (settings?.mixerGroup != null) audioSource.outputAudioMixerGroup = settings.mixerGroup;
 
-        audioSource.clip = clip;
-        audioSource.time = startTime;
+        audioSource.clip   = clip;
+        audioSource.time   = startTime;
         audioSource.volume = volume;
         audioSource.Play();
 
@@ -118,8 +119,8 @@ public class SoundManager : MonoBehaviour {
     private IEnumerator FadeInSound(AudioSource source, float targetVolume, float fadeDuration) {
         var currentTime = 0f;
         while (currentTime < fadeDuration) {
-            currentTime += Time.deltaTime;
-            source.volume = Mathf.Lerp(0f, targetVolume, currentTime / fadeDuration);
+            currentTime   += Time.deltaTime;
+            source.volume =  Mathf.Lerp(0f, targetVolume, currentTime / fadeDuration);
             yield return null;
         }
     }
@@ -154,14 +155,14 @@ public class SoundManager : MonoBehaviour {
         if (currentSource != null)
             // Fade out current source
             StartCoroutine(FadeOutAndReplaceSoundCoroutine(
-                                                           currentSource,
-                                                           newClip,
-                                                           soundType,
-                                                           crossfadeDuration,
-                                                           loop,
-                                                           loopStartTime,
-                                                           loopEndTime
-                                                          ));
+                               currentSource,
+                               newClip,
+                               soundType,
+                               crossfadeDuration,
+                               loop,
+                               loopStartTime,
+                               loopEndTime
+                           ));
         else
             // If no current source, just play new sound
             PlaySound(newClip, soundType, false, -1f, loop, loopStartTime, loopEndTime);
@@ -182,16 +183,20 @@ public class SoundManager : MonoBehaviour {
         float loopStartTime,
         float loopEndTime) {
         var settings = soundSettings.Find(s => s.type == soundType);
-        var volume = settings?.volumeScale ?? 1f;
+        var volume   = settings?.volumeScale ?? 1f;
 
         // Fade out current source
         var startVolume = currentSource.volume;
         var currentTime = 0f;
         while (currentTime < crossfadeDuration) {
             currentTime += Time.deltaTime;
+            if (currentSource == null) yield break;
             currentSource.volume = Mathf.Lerp(startVolume, 0f, currentTime / crossfadeDuration);
+
             yield return null;
         }
+
+        if (currentSource == null) yield return null;
 
         // Stop and destroy current source
         currentSource.Stop();
@@ -200,14 +205,14 @@ public class SoundManager : MonoBehaviour {
 
         // Play new source with fade in
         PlaySound(
-                  newClip,
-                  soundType,
-                  true,
-                  volume,
-                  loop,
-                  loopStartTime,
-                  loopEndTime
-                 );
+            newClip,
+            soundType,
+            true,
+            volume,
+            loop,
+            loopStartTime,
+            loopEndTime
+        );
     }
 
     public void FadeOutSound(SoundType soundType, float fadeDuration = 1f) {
@@ -221,8 +226,8 @@ public class SoundManager : MonoBehaviour {
         var currentTime = 0f;
 
         while (currentTime < fadeDuration) {
-            currentTime += Time.deltaTime;
-            source.volume = Mathf.Lerp(startVolume, 0f, currentTime / fadeDuration);
+            currentTime   += Time.deltaTime;
+            source.volume =  Mathf.Lerp(startVolume, 0f, currentTime / fadeDuration);
             yield return null;
         }
 

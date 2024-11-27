@@ -34,6 +34,7 @@ public class Actor : Entity {
     [SerializeField] private float betweenAttackTime = 5f;
 
     private NavMeshAgent _agent;
+    private bool frame = false;
 
     [SerializeField] private float _cTime;
 
@@ -55,6 +56,11 @@ public class Actor : Entity {
     }
 
     private void FixedUpdate() {
+        if (!frame) {
+            frame = true;
+            return;
+        }
+
         _cTime -= Time.fixedDeltaTime;
         Debug.DrawCircle(transform.position, detectionRadius, 32, Color.red);
         if (Vector3.Distance(transform.position, MainCharacter.Instance.transform.position) <=

@@ -140,13 +140,12 @@ public class Shopkeep : MonoBehaviour {
             var price = GetPrice((AbilityType)pickup.Index);
             if (price > GameStatTracker.Instance.GetScore()) return;
             GameStatTracker.Instance.DecrementScore(price);
-            GetComponentInChildren<AbilityPickup>().Apply(pickup.Index);
+            transform.GetChild(childIndex).GetComponentInChildren<AbilityPickup>().Apply(pickup.Index);
         } else {
-            Debug.Log($"Index = {childIndex}");
             var price = GetPrice((UpgradeType)pickup.Index);
             if (price > GameStatTracker.Instance.GetScore()) return;
             GameStatTracker.Instance.DecrementScore(price);
-            GetComponentInChildren<Upgrade>().Apply();
+            transform.GetChild(childIndex).GetComponentInChildren<Upgrade>().Apply();
         }
 
         OnPickup.Invoke();

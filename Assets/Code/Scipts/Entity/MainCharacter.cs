@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MainCharacter : Actor {
     private static readonly int Bl = Animator.StringToHash("IsBlocking");     //Bool
@@ -42,7 +43,8 @@ public class MainCharacter : Actor {
     }
 
     private void FixedUpdate() {
-        if (transform.position.y < -10f) DecreaseHealth(health + 1);
+        if (SceneManager.GetActiveScene().buildIndex == 4) Destroy(gameObject);
+        if (transform.position.y                     < -10f) DecreaseHealth(health + 1);
         Movement();
         if (HasAbility() == -1) return;
         if (_abilityScript.currentCharge > _abilityScript.GetMaxRechargeSpeed())

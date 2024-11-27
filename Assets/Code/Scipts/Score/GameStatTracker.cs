@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStatTracker : MonoBehaviour {
     [SerializeField] private GameStats _curStats;
@@ -12,6 +13,10 @@ public class GameStatTracker : MonoBehaviour {
         _curStats = new GameStats();
         Instance  = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void FixedUpdate() {
+        if (SceneManager.GetActiveScene().buildIndex == 4) Destroy(gameObject);
     }
 
     public void AddScore(int score) {
@@ -31,6 +36,7 @@ public class GameStatTracker : MonoBehaviour {
 
     public void HealthUpdate(int health) {
         _curStats.cPlayerHealth = health;
+        if (health > _curStats.maxPlayerHealth) MaxHealthUpdate(health);
         OnPlayerHealthChanged?.Invoke(health);
     }
 

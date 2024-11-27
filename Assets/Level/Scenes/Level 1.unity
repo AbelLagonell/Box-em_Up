@@ -398,11 +398,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 976e5be27189d6d4dacad80086fa3e38, type: 3}
---- !u!4 &380072622 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4993290949692823560, guid: 976e5be27189d6d4dacad80086fa3e38, type: 3}
-  m_PrefabInstance: {fileID: 380072621}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &406268751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1726,10 +1721,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2371750330432253768, guid: 687d0accca4bdcb4eb4059ae883dcde1, type: 3}
-      propertyPath: shopKeeperSpawn
-      value: 
-      objectReference: {fileID: 380072622}
     - target: {fileID: 2839960669059541838, guid: 687d0accca4bdcb4eb4059ae883dcde1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.6009398

@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 6330508899136930908}
   - component: {fileID: 7458037903369200948}
   - component: {fileID: 3848331174609151675}
-  - component: {fileID: 3102825995826556632}
+  - component: {fileID: 8597574865991954346}
   m_Layer: 0
   m_Name: Shopkeeper
   m_TagString: Untagged
@@ -913,19 +913,19 @@ MonoBehaviour:
   OnPickup:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LoadAsyncAudio, Assembly-CSharp
+      - m_Target: {fileID: 8597574865991954346}
+        m_TargetAssemblyTypeName: LoadMultAudio, Assembly-CSharp
         m_MethodName: PlayAsync
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3102825995826556632
+--- !u!114 &8597574865991954346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -934,17 +934,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 5612381878125189808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7a1373a18a51fa4a9c166f1e55a8caf, type: 3}
+  m_Script: {fileID: 11500000, guid: 287037dd27a16ee4ba9819939af6f50a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundType: 1
+  soundType: 0
   shouldFadeIn: 0
   loop: 0
   changeVolume: 0
   volumeOverride: 0
   onStart: 1
-  audioClips:
-  - {fileID: 8300000, guid: ee6aeb43fe2e7734e904c541be4fdebd, type: 3}
+  condition: 0
+  audioClipsVector:
+  - audioClips:
+    - {fileID: 8300000, guid: ee6aeb43fe2e7734e904c541be4fdebd, type: 3}
+  - audioClips:
+    - {fileID: 8300000, guid: 6400f3b274b282a478eb53d4a051191e, type: 3}
 --- !u!1 &5707597491050873210
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StatDisplay : MonoBehaviour {
@@ -17,19 +19,23 @@ public class StatDisplay : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         // Subscribe to the events
-        GameStatTracker.Instance.OnWaveChange += OnWaveChanged;
-        GameStatTracker.Instance.OnScoreChanged += OnScoreChanged;
-        GameStatTracker.Instance.OnMultiplierChanged += OnMultiplierChanged;
+        GameStatTracker.Instance.OnWaveChange          += OnWaveChanged;
+        GameStatTracker.Instance.OnScoreChanged        += OnScoreChanged;
+        GameStatTracker.Instance.OnMultiplierChanged   += OnMultiplierChanged;
         GameStatTracker.Instance.OnPlayerHealthChanged += OnPlayerHealthChanged;
 
         healthObject = GetComponentInChildren<Slider>();
     }
 
+    private void FixedUpdate() {
+        if (SceneManager.GetActiveScene().buildIndex == 4) Destroy(gameObject);
+    }
+
     private void OnDestroy() {
         // Unsubscribe from the events
-        GameStatTracker.Instance.OnWaveChange -= OnWaveChanged;
-        GameStatTracker.Instance.OnScoreChanged -= OnScoreChanged;
-        GameStatTracker.Instance.OnMultiplierChanged -= OnMultiplierChanged;
+        GameStatTracker.Instance.OnWaveChange          -= OnWaveChanged;
+        GameStatTracker.Instance.OnScoreChanged        -= OnScoreChanged;
+        GameStatTracker.Instance.OnMultiplierChanged   -= OnMultiplierChanged;
         GameStatTracker.Instance.OnPlayerHealthChanged -= OnPlayerHealthChanged;
     }
 
@@ -47,7 +53,7 @@ public class StatDisplay : MonoBehaviour {
 
     private void OnPlayerHealthChanged(int newHealth) {
         if (newHealth > maxHealth) {
-            maxHealth = newHealth;
+            maxHealth             = newHealth;
             healthObject.maxValue = maxHealth;
         }
 
