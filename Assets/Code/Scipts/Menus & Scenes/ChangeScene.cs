@@ -7,6 +7,7 @@ public enum SceneIndex {
     Level3,
     GameEnd,
     Credits,
+    Settings,
     TestLevel
 }
 

@@ -9,7 +9,8 @@ public class SoundManager : MonoBehaviour {
     public enum SoundType {
         Music,
         SFX,
-        UI
+        UI,
+        Master
     }
 
     public List<SoundSettings> soundSettings;

@@ -555,7 +555,6 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: 341e0c417185f3d4091e8a5a264b7a4a, type: 3}
   - {fileID: 8300000, guid: 3796f2a458c4128499b72fd6b62e91c1, type: 3}
-  - {fileID: 8300000, guid: a4614a18b7c581e499155c51a04a83ea, type: 3}
 --- !u!4 &716494015
 Transform:
   m_ObjectHideFlags: 0
@@ -797,9 +796,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1390155312452418451, guid: 3aba519a901456f4a9c0f94cc87f7eba, type: 3}
+      propertyPath: sceneIndex
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3808680555913453639, guid: 3aba519a901456f4a9c0f94cc87f7eba, type: 3}
       propertyPath: m_text
-      value: Controls
+      value: Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 3808680555913453639, guid: 3aba519a901456f4a9c0f94cc87f7eba, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984530691092252896, guid: 3aba519a901456f4a9c0f94cc87f7eba, type: 3}
+      propertyPath: sceneIndex
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8634406876684530518, guid: 3aba519a901456f4a9c0f94cc87f7eba, type: 3}
       propertyPath: m_Name
@@ -894,7 +905,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 126.2
+  m_fontSize: 180
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -118,7 +118,7 @@ public class Waves : MonoBehaviour {
         try {
             //Test if its working
             var transform1 = spawnerActive[0].transform;
-        } catch (Exception e) {
+        } catch {
             OnSceneChange();
             spawnerActive = GetActiveSpawners();
         }
