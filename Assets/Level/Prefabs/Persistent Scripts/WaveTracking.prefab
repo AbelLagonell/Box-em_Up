@@ -47,6 +47,7 @@ MonoBehaviour:
   enemies:
   - {fileID: 2474963117297433464, guid: fc4324473b2262e4984ba4bcdf82d01c, type: 3}
   - {fileID: 467653532200684830, guid: f5ed58992882be140b509653d8b7a939, type: 3}
+  - {fileID: 3735458641347713176, guid: 966779152878d4a5695c00bc17aa2bb9, type: 3}
   shopKeeper: {fileID: 5612381878125189808, guid: 38d54cb78a618b9488f0006c793e7760, type: 3}
   radius: 5
   withinBurstTime: 0.75
