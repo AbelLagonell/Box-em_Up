@@ -9,8 +9,11 @@ public class StatDisplay : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI multiplier;
     [SerializeField] private TextMeshProUGUI wave;
     [SerializeField] private Slider healthObject;
+    [SerializeField] private GameObject abilityCooldown;
 
-    private float maxHealth;
+    private float _maxHealth;
+    private Slider _ability;
+
     public static StatDisplay Instance { get; private set; }
 
     private void Start() {
@@ -23,8 +26,14 @@ public class StatDisplay : MonoBehaviour {
         GameStatTracker.Instance.OnScoreChanged        += OnScoreChanged;
         GameStatTracker.Instance.OnMultiplierChanged   += OnMultiplierChanged;
         GameStatTracker.Instance.OnPlayerHealthChanged += OnPlayerHealthChanged;
+        MainCharacter.Instance.OnChargeChange          += OnChargeChanged;
 
-        healthObject = GetComponentInChildren<Slider>();
+        _ability = abilityCooldown.GetComponent<Slider>();
+    }
+
+    private void OnChargeChanged(float obj) {
+        abilityCooldown.SetActive(true);
+        _ability.value = Mathf.Clamp(obj, 0, 3f);
     }
 
     private void FixedUpdate() {
@@ -37,6 +46,7 @@ public class StatDisplay : MonoBehaviour {
         GameStatTracker.Instance.OnScoreChanged        -= OnScoreChanged;
         GameStatTracker.Instance.OnMultiplierChanged   -= OnMultiplierChanged;
         GameStatTracker.Instance.OnPlayerHealthChanged -= OnPlayerHealthChanged;
+        MainCharacter.Instance.OnChargeChange          -= OnChargeChanged;
     }
 
     private void OnScoreChanged(int newScore) {
@@ -52,9 +62,9 @@ public class StatDisplay : MonoBehaviour {
     }
 
     private void OnPlayerHealthChanged(int newHealth) {
-        if (newHealth > maxHealth) {
-            maxHealth             = newHealth;
-            healthObject.maxValue = maxHealth;
+        if (newHealth > _maxHealth) {
+            _maxHealth            = newHealth;
+            healthObject.maxValue = _maxHealth;
         }
 
         healthObject.value = newHealth;

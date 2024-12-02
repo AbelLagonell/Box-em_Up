@@ -8,10 +8,6 @@ public class SwingSpawner : Ability {
         extraAbility = 90f;
     }
 
-    private void Update() {
-        currentCharge -= Time.deltaTime;
-    }
-
     public override void OnUse() {
         currentCharge = maxRechargeSpeed * RechargeSpeedMultiplier;
         var cSwing = Instantiate(ability,

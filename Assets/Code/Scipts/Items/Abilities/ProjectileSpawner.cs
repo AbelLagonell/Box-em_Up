@@ -6,10 +6,6 @@ public class ProjectileSpawner : Ability {
         extraAbility = 5f;
     }
 
-    private void Update() {
-        currentCharge -= Time.deltaTime;
-    }
-
     public override void OnUse() {
         currentCharge = maxRechargeSpeed * RechargeSpeedMultiplier;
         var proj = Instantiate(ability,

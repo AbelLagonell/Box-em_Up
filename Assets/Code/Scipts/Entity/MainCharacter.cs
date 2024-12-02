@@ -30,13 +30,16 @@ public class MainCharacter : Actor {
 
     public static MainCharacter Instance { get; private set; }
 
+    protected void Awake() {
+        if (Instance != null && Instance != this) Destroy(gameObject);
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     protected new void Start() {
         GameStatTracker.Instance.OnPlayerHealthChanged += OnHealthUpdate;
         _changeScene                                   =  GetComponent<ChangeScene>();
         base.Start();
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
         _inventory = Instantiate(inventoryPrefab, transform);
         _panel     = _inventory.transform.Find("Panel");
         _inventory.SetActive(false);
@@ -175,6 +178,8 @@ public class MainCharacter : Actor {
             _upgrades.RemoveAt(removed);
             _items.RemoveAt(removed);
         }
+
+        _abilityScript.OnCurrentChargeChanged += OnChargeChange;
     }
 
     public void ApplyUpgrade(UpgradeStats upgrade) {
@@ -238,4 +243,5 @@ public class MainCharacter : Actor {
     }
 
     public event Action OnDeath;
+    public event Action<float> OnChargeChange;
 }

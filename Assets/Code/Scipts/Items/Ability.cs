@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Ability : MonoBehaviour {
@@ -15,6 +16,11 @@ public abstract class Ability : MonoBehaviour {
     public abstract void ChangeAbilityExtra(float amount);
     public abstract AbilityType GetAbilityType();
 
+    private void Update() {
+        currentCharge -= Time.deltaTime;
+        OnCurrentChargeChanged?.Invoke(currentCharge);
+    }
+
     public bool CanUseAbility() {
         return currentCharge <= 0f;
     }
@@ -23,7 +29,6 @@ public abstract class Ability : MonoBehaviour {
         Damage += amount;
     }
 
-    // Might change this to be more of a multiplier
     public void DecreaseRechargeSpeed(float amount) {
         RechargeSpeedMultiplier *= 1 / amount;
     }
@@ -31,4 +36,6 @@ public abstract class Ability : MonoBehaviour {
     public float GetMaxRechargeSpeed() {
         return maxRechargeSpeed * RechargeSpeedMultiplier;
     }
+
+    public event Action<float> OnCurrentChargeChanged;
 }
