@@ -117,8 +117,8 @@ MonoBehaviour:
   - {fileID: 7400000, guid: c23c3734d0e083c489c432d6ee1b4d8f, type: 2}
   - {fileID: 7400000, guid: cd4f748771dcd264ca517748adb78b11, type: 2}
   - {fileID: 7400000, guid: ccec40d2b70c2534a91ded800884eaa6, type: 2}
-  speed: 3
-  attackSpeed: 0.75
+  speed: 4
+  attackSpeed: 1
   defense: 0
   attack: 1
   detectionRadius: 3

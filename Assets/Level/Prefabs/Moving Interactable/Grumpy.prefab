@@ -628,30 +628,18 @@ MonoBehaviour:
   - {fileID: 7400000, guid: c23c3734d0e083c489c432d6ee1b4d8f, type: 2}
   - {fileID: 7400000, guid: cd4f748771dcd264ca517748adb78b11, type: 2}
   - {fileID: 7400000, guid: ccec40d2b70c2534a91ded800884eaa6, type: 2}
-  speed: 3
-  attackSpeed: 0.5
+  speed: 4
+  attackSpeed: 0.75
   defense: 0
   attack: 1
   detectionRadius: 0
-  cTime: 0
   betweenAttackTime: 5
+  _cTime: 0
   inventoryPrefab: {fileID: 8460852080002335079, guid: 7b76b3fcb5fa7651eb1982e46a1914b3, type: 3}
   itemPrefab: {fileID: 16272158697687821, guid: 059b2af942992cfc5b3e82afb9e2bc27, type: 3}
   OnLowHealth:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7030039037272359746}
-        m_TargetAssemblyTypeName: LoadMultAudio, Assembly-CSharp
-        m_MethodName: PlayFadeOut
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnAbilityUse:
     m_PersistentCalls:
       m_Calls:

@@ -117,13 +117,13 @@ MonoBehaviour:
   - {fileID: 7400000, guid: c23c3734d0e083c489c432d6ee1b4d8f, type: 2}
   - {fileID: 7400000, guid: cd4f748771dcd264ca517748adb78b11, type: 2}
   - {fileID: 7400000, guid: ccec40d2b70c2534a91ded800884eaa6, type: 2}
-  speed: 2
-  attackSpeed: 0.5
+  speed: 2.5
+  attackSpeed: 0.75
   defense: 0
   attack: 1
   detectionRadius: 3.5
-  cTime: 0
   betweenAttackTime: 5
+  _cTime: 0
 --- !u!95 &1803421522057973732
 Animator:
   serializedVersion: 5

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -72,17 +71,17 @@ public class Waves : MonoBehaviour {
         try {
             enemyCount = enemyPerWaveCount[wave - 1];
         } catch (IndexOutOfRangeException) {
-            UnityEngine.Debug.LogError("Index out of range: Input" + (wave - 1) + "vs Max: " +
+            UnityEngine.Debug.LogError("Index out of range: Input" + (wave - 1) + " vs Max: " +
                                        enemyPerWaveCount.Length);
+            SceneManager.LoadScene((int)SceneIndex.GameEnd);
         }
 
-        //for (var i = 0; i < enemyCount / enemyBurstCount[wave - 1]; i++) 
-        var cEnemyBurst       = enemyBurstCount[wave   - 1];
+        var cEnemyBurst = enemyBurstCount[wave - 1];
         var cEnemiesRemaining = enemyPerWaveCount[wave - 1];
         do {
             var cEnemiesSpawn = 0;
             if (cEnemiesRemaining - cEnemyBurst <= 0) cEnemiesSpawn = cEnemiesRemaining;
-            else cEnemiesSpawn                                      = cEnemiesRemaining - cEnemyBurst;
+            else cEnemiesSpawn = cEnemiesRemaining - cEnemyBurst;
             StartCoroutine(SpawnEnemies(enemies[Random.Range(0, enemies.Length)], wave,
                                         cEnemiesSpawn));
             cEnemiesRemaining -= cEnemiesSpawn;
@@ -92,10 +91,10 @@ public class Waves : MonoBehaviour {
     public void OnSceneChange() {
         //Spawners
         var spawnersGO = GameObject.FindGameObjectsWithTag("Respawn");
-        spawners      = new Transform[spawnersGO.Length];
+        spawners = new Transform[spawnersGO.Length];
         spawnerScript = new Spawner[spawnersGO.Length];
         for (var i = 0; i < spawnersGO.Length; i++) {
-            spawners[i]      = spawnersGO[i].GetComponent<Transform>();
+            spawners[i] = spawnersGO[i].GetComponent<Transform>();
             spawnerScript[i] = spawnersGO[i].GetComponent<Spawner>();
         }
 
@@ -123,15 +122,15 @@ public class Waves : MonoBehaviour {
             spawnerActive = GetActiveSpawners();
         }
 
-        var rand        = Random.Range(0, spawnerActive.Count);
-        var spawner     = spawnerActive[rand].position;
+        var rand = Random.Range(0, spawnerActive.Count);
+        var spawner = spawnerActive[rand].position;
         var enemyScript = Instantiate(enemy, spawner, Quaternion.identity).GetComponent<Actor>();
-        enemyScript.attack  += wave / increasePerWave.attack;
+        enemyScript.attack += wave / increasePerWave.attack;
         enemyScript.defense += wave / increasePerWave.defense;
-        enemyScript.health  =  wave / increasePerWave.health;
+        enemyScript.health = wave / increasePerWave.health;
         //TODO Fix these two incrementation
-        enemyScript.attackSpeed =  1 + (float)wave / increasePerWave.attackSpeed;
-        enemyScript.speed       += (enemyScript.speed + wave) / increasePerWave.speed;
+        enemyScript.attackSpeed = 1 + (float)wave / increasePerWave.attackSpeed;
+        enemyScript.speed += (enemyScript.speed + wave) / increasePerWave.speed;
     }
 
     private IEnumerator SpawnShopKeeper(float time) {

@@ -227,7 +227,6 @@ public class MainCharacter : Actor {
     }
 
     public List<Tuple<UpgradeStats, int>> GetUpgradeList() {
-        gameObject.SetActive(false);
         return _upgrades;
     }
 
