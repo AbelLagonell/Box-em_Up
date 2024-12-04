@@ -127,8 +127,7 @@ public class Waves : MonoBehaviour {
         var enemyScript = Instantiate(enemy, spawner, Quaternion.identity).GetComponent<Actor>();
         enemyScript.attack += wave / increasePerWave.attack;
         enemyScript.defense += wave / increasePerWave.defense;
-        enemyScript.health = wave / increasePerWave.health;
-        //TODO Fix these two incrementation
+        enemyScript.health += wave / increasePerWave.health;
         enemyScript.attackSpeed = 1 + (float)wave / increasePerWave.attackSpeed;
         enemyScript.speed += (enemyScript.speed + wave) / increasePerWave.speed;
     }

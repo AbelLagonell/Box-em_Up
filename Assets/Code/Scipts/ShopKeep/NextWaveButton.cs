@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class NextWaveButton : MonoBehaviour {
         GameStatTracker.Instance.IncrementWaveCount();
         if (GameStatTracker.Instance.GetWaveCount() % (Waves.Instance.waveAmountSceneChange + 1) != 0) return;
         //We need to transistion to next level
+        MainCharacter.Instance.transform.position = Vector3.up;
         textMeshProUGUI.text = "Next Level";
         var scene = GetComponent<ChangeScene>();
         var changeScene =

@@ -57,7 +57,7 @@ MonoBehaviour:
   increasePerWave:
     attack: 2
     attackSpeed: 4
-    defense: 5
+    defense: 10
     speed: 7
     health: 1
   waveAmountSceneChange: 3
